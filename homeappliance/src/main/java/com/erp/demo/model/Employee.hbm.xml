@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Generated 2024年2月28日 上午3:00:56 by Hibernate Tools 6.3.1.Final --><!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class catalog="ERPWork" name="com.erp.demo.model.Employee" optimistic-lock="none" schema="dbo" table="Employee">
+        <id name="pid" type="string">
+            <column length="255" name="PID"/>
+            <generator class="identity"/>
+        </id>
+        <property name="id" type="int">
+            <column name="Id" not-null="true"/>
+        </property>
+        <property name="username" type="string">
+            <column length="255" name="Username" not-null="true"/>
+        </property>
+        <property name="password" type="string">
+            <column length="255" name="Password" not-null="true"/>
+        </property>
+        <property name="name" type="string">
+            <column length="45" name="Name" not-null="true"/>
+        </property>
+        <property name="departmentCode" type="string">
+            <column length="50" name="DepartmentCode" not-null="true"/>
+        </property>
+        <property name="roleCode" type="string">
+            <column length="50" name="RoleCode" not-null="true"/>
+        </property>
+        <property name="sex" type="serializable">
+            <column name="Sex" not-null="true"/>
+        </property>
+        <property name="nationalld" type="string">
+            <column length="10" name="Nationalld" not-null="true"/>
+        </property>
+        <property name="birthDate" type="date">
+            <column length="10" name="BirthDate" not-null="true"/>
+        </property>
+        <property name="cellphone" type="string">
+            <column length="10" name="Cellphone" not-null="true"/>
+        </property>
+        <property name="landlineprefix" type="string">
+            <column length="4" name="Landlineprefix"/>
+        </property>
+        <property name="landline" type="string">
+            <column length="8" name="Landline"/>
+        </property>
+        <property name="email" type="string">
+            <column length="255" name="Email" not-null="true"/>
+        </property>
+        <property name="postalCode" type="byte">
+            <column name="PostalCode" not-null="true"/>
+        </property>
+        <property name="address" type="serializable">
+            <column name="Address" not-null="true"/>
+        </property>
+        <property name="footnote" type="serializable">
+            <column name="Footnote" not-null="true"/>
+        </property>
+        <property name="createTime" type="timestamp">
+            <column length="27" name="CreateTime" not-null="true"/>
+        </property>
+        <property name="updateTime" type="timestamp">
+            <column length="27" name="UpdateTime" not-null="true"/>
+        </property>
+        <property name="updateName" type="serializable">
+            <column name="UpdateName"/>
+        </property>
+    </class>
+</hibernate-mapping>

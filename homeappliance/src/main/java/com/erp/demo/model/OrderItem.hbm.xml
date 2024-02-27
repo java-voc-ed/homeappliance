@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Generated 2024年2月28日 上午3:00:56 by Hibernate Tools 6.3.1.Final --><!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class catalog="ERPWork" name="com.erp.demo.model.OrderItem" optimistic-lock="none" schema="dbo" table="OrderItem">
+        <id name="id" type="java.lang.Integer">
+            <column name="Id"/>
+            <generator class="identity"/>
+        </id>
+        <property name="oid" type="string">
+            <column length="255" name="OID" not-null="true"/>
+        </property>
+        <property name="pid" type="string">
+            <column length="255" name="PID" not-null="true"/>
+        </property>
+        <property name="quantity" type="int">
+            <column name="Quantity" not-null="true"/>
+        </property>
+    </class>
+</hibernate-mapping>

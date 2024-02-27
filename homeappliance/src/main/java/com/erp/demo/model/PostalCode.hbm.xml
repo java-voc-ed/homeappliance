@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Generated 2024年2月28日 上午3:00:56 by Hibernate Tools 6.3.1.Final --><!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class catalog="ERPWork" name="com.erp.demo.model.PostalCode" optimistic-lock="none" schema="dbo" table="PostalCode">
+        <id name="postalCode" type="int">
+            <column name="PostalCode"/>
+            <generator class="assigned"/>
+        </id>
+        <property name="county" type="serializable">
+            <column name="County" not-null="true"/>
+        </property>
+        <property name="district" type="serializable">
+            <column name="District" not-null="true"/>
+        </property>
+    </class>
+</hibernate-mapping>

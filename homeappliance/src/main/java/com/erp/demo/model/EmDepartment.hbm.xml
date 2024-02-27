@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Generated 2024年2月28日 上午3:00:56 by Hibernate Tools 6.3.1.Final --><!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class catalog="ERPWork" name="com.erp.demo.model.EmDepartment" optimistic-lock="none" schema="dbo" table="EmDepartment">
+        <id name="departmentCode" type="string">
+            <column length="50" name="DepartmentCode"/>
+            <generator class="assigned"/>
+        </id>
+        <property name="departmentName" type="serializable">
+            <column name="DepartmentName" not-null="true"/>
+        </property>
+        <property name="jobTitle" type="serializable">
+            <column name="JobTitle" not-null="true"/>
+        </property>
+    </class>
+</hibernate-mapping>

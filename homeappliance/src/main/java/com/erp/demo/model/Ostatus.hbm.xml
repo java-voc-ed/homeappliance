@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Generated 2024年2月28日 上午3:00:56 by Hibernate Tools 6.3.1.Final --><!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class catalog="ERPWork" name="com.erp.demo.model.Ostatus" optimistic-lock="none" schema="dbo" table="OStatus">
+        <id name="ostatusCode" type="int">
+            <column name="OStatusCode"/>
+            <generator class="assigned"/>
+        </id>
+        <property name="ostatusName" type="serializable">
+            <column name="OStatusName" not-null="true"/>
+        </property>
+        <property name="ostatusDesc" type="serializable">
+            <column name="OStatusDesc" not-null="true"/>
+        </property>
+    </class>
+</hibernate-mapping>
