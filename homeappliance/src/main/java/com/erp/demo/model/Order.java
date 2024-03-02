@@ -1,7 +1,6 @@
 package com.erp.demo.model;
-// Generated 2024�~2��28�� �W��3:00:56 by Hibernate Tools 6.3.1.Final
+// Generated 2024�~3��2�� �U��7:02:46 by Hibernate Tools 6.3.1.Final
 
-import java.io.Serializable;
 import java.sql.Timestamp;
 
 /**
@@ -16,27 +15,27 @@ public class Order implements java.io.Serializable {
 	private Integer amount;
 	private Integer total;
 	private String paymentCode;
-	private Serializable shippingMethod;
-	private Serializable recipient;
+	private String shippingMethod;
+	private String recipient;
 	private String cellphone;
 	private String landlineprefix;
 	private String landline;
 	private String email;
 	private int postalCode;
-	private Serializable address;
+	private String address;
 	private String did;
-	private Serializable footnote;
+	private String footnote;
 	private Timestamp createTime;
 	private Timestamp updateTime;
-	private Serializable updateName;
+	private String updateName;
 
 	public Order() {
 	}
 
 	public Order(int id, String mid, int status, Integer amount, Integer total, String paymentCode,
-			Serializable shippingMethod, Serializable recipient, String cellphone, String landlineprefix,
-			String landline, String email, int postalCode, Serializable address, String did, Serializable footnote,
-			Timestamp createTime, Timestamp updateTime, Serializable updateName) {
+			String shippingMethod, String recipient, String cellphone, String landlineprefix, String landline,
+			String email, int postalCode, String address, String did, String footnote, Timestamp createTime,
+			Timestamp updateTime, String updateName) {
 		this.id = id;
 		this.mid = mid;
 		this.status = status;
@@ -114,19 +113,19 @@ public class Order implements java.io.Serializable {
 		this.paymentCode = paymentCode;
 	}
 
-	public Serializable getShippingMethod() {
+	public String getShippingMethod() {
 		return this.shippingMethod;
 	}
 
-	public void setShippingMethod(Serializable shippingMethod) {
+	public void setShippingMethod(String shippingMethod) {
 		this.shippingMethod = shippingMethod;
 	}
 
-	public Serializable getRecipient() {
+	public String getRecipient() {
 		return this.recipient;
 	}
 
-	public void setRecipient(Serializable recipient) {
+	public void setRecipient(String recipient) {
 		this.recipient = recipient;
 	}
 
@@ -170,11 +169,11 @@ public class Order implements java.io.Serializable {
 		this.postalCode = postalCode;
 	}
 
-	public Serializable getAddress() {
+	public String getAddress() {
 		return this.address;
 	}
 
-	public void setAddress(Serializable address) {
+	public void setAddress(String address) {
 		this.address = address;
 	}
 
@@ -186,11 +185,11 @@ public class Order implements java.io.Serializable {
 		this.did = did;
 	}
 
-	public Serializable getFootnote() {
+	public String getFootnote() {
 		return this.footnote;
 	}
 
-	public void setFootnote(Serializable footnote) {
+	public void setFootnote(String footnote) {
 		this.footnote = footnote;
 	}
 
@@ -210,11 +209,11 @@ public class Order implements java.io.Serializable {
 		this.updateTime = updateTime;
 	}
 
-	public Serializable getUpdateName() {
+	public String getUpdateName() {
 		return this.updateName;
 	}
 
-	public void setUpdateName(Serializable updateName) {
+	public void setUpdateName(String updateName) {
 		this.updateName = updateName;
 	}
 

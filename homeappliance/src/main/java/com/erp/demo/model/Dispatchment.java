@@ -1,7 +1,6 @@
 package com.erp.demo.model;
-// Generated 2024�~2��28�� �W��3:00:56 by Hibernate Tools 6.3.1.Final
+// Generated 2024�~3��2�� �U��7:02:46 by Hibernate Tools 6.3.1.Final
 
-import java.io.Serializable;
 import java.sql.Timestamp;
 
 /**
@@ -12,18 +11,18 @@ public class Dispatchment implements java.io.Serializable {
 	private String did;
 	private int id;
 	private String oid;
-	private Serializable dispEid1;
-	private Serializable dispEid2;
+	private String dispEid1;
+	private String dispEid2;
 	private char status;
 	private Timestamp createTime;
 	private Timestamp updateTime;
-	private Serializable updateName;
+	private String updateName;
 
 	public Dispatchment() {
 	}
 
-	public Dispatchment(int id, String oid, Serializable dispEid1, Serializable dispEid2, char status,
-			Timestamp createTime, Timestamp updateTime, Serializable updateName) {
+	public Dispatchment(int id, String oid, String dispEid1, String dispEid2, char status, Timestamp createTime,
+			Timestamp updateTime, String updateName) {
 		this.id = id;
 		this.oid = oid;
 		this.dispEid1 = dispEid1;
@@ -58,19 +57,19 @@ public class Dispatchment implements java.io.Serializable {
 		this.oid = oid;
 	}
 
-	public Serializable getDispEid1() {
+	public String getDispEid1() {
 		return this.dispEid1;
 	}
 
-	public void setDispEid1(Serializable dispEid1) {
+	public void setDispEid1(String dispEid1) {
 		this.dispEid1 = dispEid1;
 	}
 
-	public Serializable getDispEid2() {
+	public String getDispEid2() {
 		return this.dispEid2;
 	}
 
-	public void setDispEid2(Serializable dispEid2) {
+	public void setDispEid2(String dispEid2) {
 		this.dispEid2 = dispEid2;
 	}
 
@@ -98,11 +97,11 @@ public class Dispatchment implements java.io.Serializable {
 		this.updateTime = updateTime;
 	}
 
-	public Serializable getUpdateName() {
+	public String getUpdateName() {
 		return this.updateName;
 	}
 
-	public void setUpdateName(Serializable updateName) {
+	public void setUpdateName(String updateName) {
 		this.updateName = updateName;
 	}
 

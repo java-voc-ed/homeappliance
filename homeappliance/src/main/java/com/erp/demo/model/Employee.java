@@ -1,7 +1,6 @@
 package com.erp.demo.model;
-// Generated 2024�~2��28�� �W��3:00:56 by Hibernate Tools 6.3.1.Final
+// Generated 2024�~3��2�� �U��7:02:46 by Hibernate Tools 6.3.1.Final
 
-import java.io.Serializable;
 import java.sql.Date;
 import java.sql.Timestamp;
 
@@ -17,7 +16,7 @@ public class Employee implements java.io.Serializable {
 	private String name;
 	private String departmentCode;
 	private String roleCode;
-	private Serializable sex;
+	private String sex;
 	private String nationalld;
 	private Date birthDate;
 	private String cellphone;
@@ -25,19 +24,19 @@ public class Employee implements java.io.Serializable {
 	private String landline;
 	private String email;
 	private byte postalCode;
-	private Serializable address;
-	private Serializable footnote;
+	private String address;
+	private String footnote;
 	private Timestamp createTime;
 	private Timestamp updateTime;
-	private Serializable updateName;
+	private String updateName;
 
 	public Employee() {
 	}
 
 	public Employee(int id, String username, String password, String name, String departmentCode, String roleCode,
-			Serializable sex, String nationalld, Date birthDate, String cellphone, String landlineprefix,
-			String landline, String email, byte postalCode, Serializable address, Serializable footnote,
-			Timestamp createTime, Timestamp updateTime, Serializable updateName) {
+			String sex, String nationalld, Date birthDate, String cellphone, String landlineprefix, String landline,
+			String email, byte postalCode, String address, String footnote, Timestamp createTime, Timestamp updateTime,
+			String updateName) {
 		this.id = id;
 		this.username = username;
 		this.password = password;
@@ -115,11 +114,11 @@ public class Employee implements java.io.Serializable {
 		this.roleCode = roleCode;
 	}
 
-	public Serializable getSex() {
+	public String getSex() {
 		return this.sex;
 	}
 
-	public void setSex(Serializable sex) {
+	public void setSex(String sex) {
 		this.sex = sex;
 	}
 
@@ -179,19 +178,19 @@ public class Employee implements java.io.Serializable {
 		this.postalCode = postalCode;
 	}
 
-	public Serializable getAddress() {
+	public String getAddress() {
 		return this.address;
 	}
 
-	public void setAddress(Serializable address) {
+	public void setAddress(String address) {
 		this.address = address;
 	}
 
-	public Serializable getFootnote() {
+	public String getFootnote() {
 		return this.footnote;
 	}
 
-	public void setFootnote(Serializable footnote) {
+	public void setFootnote(String footnote) {
 		this.footnote = footnote;
 	}
 
@@ -211,11 +210,11 @@ public class Employee implements java.io.Serializable {
 		this.updateTime = updateTime;
 	}
 
-	public Serializable getUpdateName() {
+	public String getUpdateName() {
 		return this.updateName;
 	}
 
-	public void setUpdateName(Serializable updateName) {
+	public void setUpdateName(String updateName) {
 		this.updateName = updateName;
 	}
 
