@@ -20,7 +20,7 @@ import jakarta.persistence.Id;
 public class Order implements java.io.Serializable {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-	private String oid;
+	private Integer oid;
 	private String mid;
 	private int status;
 	private Integer amount;
@@ -80,11 +80,11 @@ public class Order implements java.io.Serializable {
 		this.updateName = updateName;
 	}
 
-	public String getOid() {
+	public Integer getOid() {
 		return this.oid;
 	}
 
-	public void setOid(String oid) {
+	public void setOid(Integer oid) {
 		this.oid = oid;
 	}
 
