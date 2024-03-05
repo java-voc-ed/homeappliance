@@ -1,0 +1,167 @@
+html,
+body{
+    height: 100%;
+}
+
+body{
+    background-color: #546377;
+    box-sizing: border-box;
+    font-family: "Noto Sanc TC", sans-serif;
+}
+
+a{
+    text-decoration: none;
+    font-weight: 300;
+    &:hover{
+        color: red;
+    }
+}
+a,
+label{
+    cursor: pointer;
+}
+
+.LsideMenu{
+    width: 300px;
+    height: auto;
+    background-color: rgb(135, 210, 205);
+    border-right: 3px solid #d1d1d1;
+    display: flex;  /* 讓 sideMenu 裡面的元素變成橫排 */
+    flex-direction: column; /* 讓 flex 的方向變成直排 */
+    padding: 50px 0; /* 因為有 boxsizing 的關係，所以不會有 Y 軸 bar */
+    box-shadow: 5px 0 5px rgba(23, 23, 54, 0.6);
+    position: relative; /* label 定位在這個上 */
+    transform: translateX(0); /* 將 LsideMenu 左橫移 100%，使他到螢幕外*/
+    transition: 0.5s;  /* 側邊欄收合時間差 */
+
+    form {
+        display: flex; /* 讓 form 裡面的元素橫向排列 */
+        margin: 0 10px 50px;
+        border-radius: 100px;
+        border: 1px solid #fff;
+    input {
+        width: 230px;
+    }
+    button{
+        width: 50px
+    }
+    input,
+    button{
+        border: none;
+        padding: 5px 10px;
+        background-color: transparent;
+        color: #fff;
+        &:focus{
+            outline: none;
+            }
+        }
+    }
+    .logo{
+        padding-left: 20px;
+        img{
+            width: 60px;
+            vertical-align: middle;
+        }
+        a{
+         display: block;
+         color: #000;
+         font-weight: 500;
+         font-size: 24px;
+        }
+    }
+    
+    .list {
+		display: flex;
+     
+		.optionTitle {
+			color: #676056;
+		}
+
+		.optionList {
+			color: #fff;
+		}
+		.optionTitle,
+		.optionList {
+            list-style-type: none;
+			display: block;
+			padding: 30px;
+			line-height: 2;
+            font-weight: 500;
+
+			.fas {
+				color: #fff;
+				outline: none;
+				border: none;
+			}
+		}
+	}
+
+    label{
+        width: 20px;
+        height: 80px;
+        background-color: #d1d1d1;
+        color: #686666;
+        /* 絕對定位在 LsideMenu 上*/
+        position: absolute;
+        right: -20px;
+        top: 0;
+        bottom: 0;
+        margin: auto;
+        line-height: 80px;
+        text-align: center;
+        border-radius: 0 5px 5px 0;
+        box-shadow: 5px 0 5px rgba(23, 23, 54, 0.6);
+    }
+}
+
+#LsideMenu-active:checked + .LsideMenu{
+    transform: translateX(0);
+
+    /* 當我點擊 LsideMenu 時，checkbox 會啟動 id，讓側邊欄跑出來 */
+label .fas{
+    transform: scaleX(-1); /* 使 label 裡的圖案橫向反轉 */
+  }
+}
+
+#LsideMenu-active {
+    position: absolute;
+    opacity: 0;  /* 使 checkbox 變透明 */
+    z-index: -1; /* 為了保險不要讓該功能還選得到，可將其排序往後跳 */
+}
+
+nav {
+  a {
+    display: block;
+    color: #fff;
+    padding: 20px 10px;
+    position: relative;
+    
+
+    .iconMenu{
+        margin-right: -1.1em; /* 使用 margin 的特性往右拉負值，讓文字靠左對齊 */ 
+        transform: scale(0); /* 使圖示消失 */
+        transition: 0.3s;
+        width: 38px ;
+        height: 38px;
+        vertical-align: middle;
+    }
+
+    &:hover .iconMenu{
+        margin-right: 0em;   /* 使文字回到原來的位置 */
+        transform: scale(1); /* 使圖示出現 */
+    }
+
+    & + a::before{
+        content: ""; /* 要寫分隔線在選項中間，這邊使用偽元素呈現，使用偽元素一定要使用 content:''，不然不會有效果 */
+        position: absolute;
+        border-top: 1px dashed #ffffff;
+        left: 10px;
+        right: 10px;
+        top: 0px;
+
+        /* 使用絕對定位方式編寫，因為 padding已設定左右 10px ，所以左右邊要推擠10px */
+        /* 然後使分隔線定位在 top:0px，固定在中間 */
+    }
+  }
+}
+

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="zh-tw">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, inital-scale=1, shrink-to-fit=no" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="css/RightSide.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <title>HomeAppilance Client</title>
+</head>
+<body>
+    <div class="asideMenu">
+        <button class="btn"><i class="fas fa-chevron-right fa-2x"></i></button>
+        <div class="title">Aside Menu</div>
+        <div class="list">
+            <ul class="optionTitle">
+                <li>index</li>
+                <li>username</li>
+                <li>city</li>
+                <li>number</li>
+                <li>edit</li>
+                <li>delete</li>
+            </ul>
+            <ul class="optionList">
+                <li>1</li>
+                <li>Tim</li>
+                <li>Taipei</li>
+                <li>0912345678</li>
+                <li>
+                    <button><i class="fas fa-edit fa-lg"></i></button>
+                </li>
+                <li>
+                    <button><i class="fas fa-trash-alt fa-lg"></i></button>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        $(function () {
+             $(".btn").click(function() {
+            $(".asideMenu").toggleClass("active");
+            $(".fa-chevron-right").toggleClass("rotate");
+            });
+        });
+
+    </script>
+</body>
+</html>
