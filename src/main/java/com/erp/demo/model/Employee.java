@@ -23,15 +23,15 @@ import jakarta.persistence.Table;
 @Table(schema = "dbo", name = "Employee")
 public class Employee {
 
-	
-	private int id;
-
 	// 主鍵由數據庫自動維護(AUTO_INCREMENT)
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Id
+	@Column(name = "Id")
+	private Integer id;
+	
 	@Column(name = "EID")
 	private String EID;
-	
+
 	private String username;
 	private String password;
 	private String name;
@@ -41,7 +41,7 @@ public class Employee {
 
 	@Column(name = "Nationalld", columnDefinition = "char(10)")
 	private String nationalld;
-	
+
 	private Date birthDate;
 	private String cellphone;
 	private String landlineprefix;
@@ -62,12 +62,10 @@ public class Employee {
 	@LastModifiedBy
 	private String updateName;
 
-	
-	
 	public Employee() {
 	}
 
-	public Employee(int id, String eId, String username, String password, String name, String departmentCode,
+	public Employee(Integer id, String eId, String username, String password, String name, String departmentCode,
 			String roleCode, String sex, String nationalld, Date birthDate, String cellphone, String landlineprefix,
 			String landline, String email, byte postalCode, String address, String footnote, Timestamp createTime,
 			Timestamp updateTime, String updateName) {
@@ -93,13 +91,11 @@ public class Employee {
 		this.updateName = updateName;
 	}
 
-	
-	
-	public int getId() {
+	public Integer getId() {
 		return this.id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

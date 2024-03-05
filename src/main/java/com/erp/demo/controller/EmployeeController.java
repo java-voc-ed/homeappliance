@@ -29,7 +29,7 @@ public class EmployeeController {
 		return employeeDAO.findAll();
 	}
 
-	// http://localhost:8080/employee/{Id}
+	// http://localhost:8080/employee/{id}
 	@GetMapping("/employee/{id}")
 	public Optional<Employee> findCustomerById(@PathVariable("id") Integer id) {
 		return employeeDAO.findById(id);
