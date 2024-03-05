@@ -31,28 +31,27 @@ public class MemberMgmtController {
 	}	
 	
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<Member> getById(@PathVariable("id") Integer id) {
+	public ResponseEntity<Member> getById(@PathVariable("id") String id) {
 		return ResponseEntity.of(memberMgmt.getById(id));
 	}
 	
-	@PostMapping
+	@PostMapping(value = "/add")
 	public ResponseEntity<String> add(@RequestBody Member member) {
 		Optional<Member> createdMember = memberMgmt.create(member);
 		return (createdMember.isPresent())
-				? ResponseEntity.created(URI.create("/api/in/v1/members?id=" + String.valueOf(createdMember.get().getId()))).build()
+				? ResponseEntity.created(URI.create("/api/in/v1/members/" + createdMember.get().getMid())).build()
 				: ResponseEntity.badRequest().body("Member already exists.");
 	}
 	
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<String> update(@PathVariable("id") Integer id, @RequestBody Member member) {
-		Optional<Member> updatedMember = memberMgmt.update(member);
-		return (updatedMember.isPresent())
-				? ResponseEntity.created(URI.create("/api/in/v1/members?id=" + String.valueOf(updatedMember.get().getId()))).build()
+	public ResponseEntity<String> update(@PathVariable("id") String id, @RequestBody Member member) {
+		return (id.equalsIgnoreCase(member.getMid()) && memberMgmt.update(member).isPresent())
+				? ResponseEntity.noContent().location(URI.create("/api/in/v1/members/" + id)).build()
 				: ResponseEntity.badRequest().body("Member does not exist.");
 	}
 	
 	@DeleteMapping(value = "/{id}")
-	public ResponseEntity<String> delete(@PathVariable("id") Integer id) {
+	public ResponseEntity<String> delete(@PathVariable("id") String id) {
 		Optional<Member> deletedMember = memberMgmt.delete(id);
 		return (deletedMember.isEmpty())
 				? ResponseEntity.noContent().build()

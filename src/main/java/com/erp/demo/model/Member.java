@@ -19,11 +19,11 @@ public class Member implements java.io.Serializable {
 	@Id
 	private String mid;
 	private Integer id;
-	private String userName;
+	private String username;
 	private String password;
 	private String name;
 	private String sex;
-	private String nationalld;
+	private String nationalId;
 	private Date birthDate;
 	private String cellphone;
 	private String landlineprefix;
