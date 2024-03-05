@@ -3,6 +3,7 @@ package com.erp.demo.model;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
@@ -24,28 +25,38 @@ import jakarta.persistence.Table;
 public class Employee {
 
 	// 主鍵由數據庫自動維護(AUTO_INCREMENT)
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Id
-	@Column(name = "Id")
-	private Integer id;
+	//@GeneratedValue
 	
-	@Column(name = "EID")
-	private String EID;
-
+	//@Column(name = "Id",unique=true)
+	//private Integer id;
+	@Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer EID;
+	@Column(length=255)
 	private String username;
+	@Column(length=255)
 	private String password;
+	@Column(length=45)
 	private String name;
+	@Column(length=50)
 	private String departmentCode;
+	@Column(length=50)
 	private String roleCode;
+	@Column(length=1)
 	private String sex;
 
-	@Column(name = "Nationalld", columnDefinition = "char(10)")
+	//@Column(name = "Nationalld", columnDefinition = "char(10)")
+	@Column(length=10)
 	private String nationalld;
 
 	private Date birthDate;
+	@Column(length=10)
 	private String cellphone;
+	@Column(length=4)
 	private String landlineprefix;
+	@Column(length=8)
 	private String landline;
+	@Column(length=255)
 	private String email;
 	private byte postalCode;
 	private String address;
@@ -60,16 +71,16 @@ public class Employee {
 	private Timestamp updateTime;
 
 	@LastModifiedBy
+	@Column(length=45)
 	private String updateName;
 
 	public Employee() {
 	}
 
-	public Employee(Integer id, String eId, String username, String password, String name, String departmentCode,
+	public Employee( Integer eId, String username, String password, String name, String departmentCode,
 			String roleCode, String sex, String nationalld, Date birthDate, String cellphone, String landlineprefix,
 			String landline, String email, byte postalCode, String address, String footnote, Timestamp createTime,
 			Timestamp updateTime, String updateName) {
-		this.id = id;
 		this.EID = eId;
 		this.username = username;
 		this.password = password;
@@ -89,14 +100,6 @@ public class Employee {
 		this.createTime = createTime;
 		this.updateTime = updateTime;
 		this.updateName = updateName;
-	}
-
-	public Integer getId() {
-		return this.id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
 	}
 
 	public String getUsername() {
@@ -243,11 +246,11 @@ public class Employee {
 		this.updateName = updateName;
 	}
 
-	public String getEID() {
+	public Integer getEID() {
 		return EID;
 	}
 
-	public void setEID(String eID) {
+	public void setEID(Integer eID) {
 		EID = eID;
 	}
 
