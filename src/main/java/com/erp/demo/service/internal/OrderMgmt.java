@@ -1,5 +1,5 @@
 package com.erp.demo.service.internal;
 
-public class ProductManagement {
+public class OrderMgmt {
 
 }

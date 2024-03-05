@@ -1,5 +1,5 @@
 package com.erp.demo.service.external;
 
-public class CartService {
+public class OrderSvc {
 
 }
