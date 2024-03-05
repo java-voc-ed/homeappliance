@@ -3,8 +3,19 @@ package com.erp.demo.model;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.time.Instant;
+import java.time.LocalDateTime;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,6 +25,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 public class Member implements java.io.Serializable {
 
 	@Id
@@ -32,8 +44,9 @@ public class Member implements java.io.Serializable {
 	private Integer postalCode;
 	private String address;
 	private String footnote;
-	private Timestamp createTime;
-	private Timestamp updateTime;
-	private String updateName;
+	@CreatedDate
+	private LocalDateTime createdTime;
+	@LastModifiedDate 
+	private LocalDateTime updatedTime;
 
 }
