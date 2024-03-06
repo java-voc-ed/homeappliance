@@ -55,11 +55,11 @@ public class Order implements java.io.Serializable {
 	public Order() {
 	}
 
-	public Order(String mid, int status, Integer amount, Integer total, String paymentCode,
+	public Order(Integer oid,String mid, int status, Integer amount, Integer total, String paymentCode,
 			String shippingMethod, String recipient, String cellphone, String landlineprefix, String landline,
 			String email, int postalCode, String address, String did, String footnote, Timestamp createTime,
 			Timestamp updateTime, String updateName) {
-
+		this.oid = oid;
 		this.mid = mid;
 		this.status = status;
 		this.amount = amount;

@@ -35,8 +35,10 @@ public class Member implements java.io.Serializable {
 	private String name;
 	@Column(length = 1)
 	private String sex;
+
 	@Column(name = "Nationalld", columnDefinition = "char(10)")
 	private String nationalId;
+
 	private Date birthDate;
 	private String cellphone;
 	@Column(length = 4)

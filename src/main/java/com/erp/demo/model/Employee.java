@@ -41,6 +41,7 @@ public class Employee {
 	@Column(name = "NationalId", columnDefinition = "char(10)")
 	private String nationalId;
 
+
 	private Date birthDate;
 	private String cellphone;
 	private String landlineprefix;
