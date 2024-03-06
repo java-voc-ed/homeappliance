@@ -15,27 +15,27 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.erp.demo.dao.EmployeeDAO;
+import com.erp.demo.repo.EmployeeRepo;
 import com.erp.demo.model.Employee;
 
 
 
-@RestController
+//@RestController
 public class EmployeeController {
 
 	@Autowired
-	private EmployeeDAO employeeDAO;
+	private EmployeeRepo employeeRepo;
 
 	// http://localhost:8080/employees
 	@GetMapping("/employees")
 	public List<Employee> getAllEmployees() {
-		return employeeDAO.findAll();
+		return employeeRepo.findAll();
 	}
 
 	// http://localhost:8080/employee/{eId}
 	@GetMapping("/employee/{eId}")
 	public Optional<Employee> findCustomerById(@PathVariable("eId") Integer eId) {
-		return employeeDAO.findById(eId);
+		return employeeRepo.findById(eId);
 	}
 
 	@PostMapping(value = "/employee")
@@ -52,20 +52,20 @@ public class EmployeeController {
 			employee.setUpdateTime(timeStamp);
 		}
 		
-		employeeDAO.save(employee);
+		employeeRepo.save(employee);
 		return getAllEmployees();
 	}
 	
 	@PutMapping("/employee/{eId}")
 	public Optional<Employee> updatEmployee(@PathVariable("eId") Integer eid, @RequestBody Employee employee) {
 		
-		Optional<Employee> findEmployee = employeeDAO.findById(eid);
+		Optional<Employee> findEmployee = employeeRepo.findById(eid);
 		
 		if (findEmployee != null) {
 			// 非理想的寫法...
 			Timestamp timeStamp = Timestamp.from(Instant.now());
 			employee.setUpdateTime(timeStamp);
-			employeeDAO.save(employee);
+			employeeRepo.save(employee);
 		}
 		
 		return findEmployee;
@@ -74,10 +74,10 @@ public class EmployeeController {
 	@DeleteMapping("/employee/{eid}")
 	public List<Employee> removeOneEmployee(@PathVariable("eid") Integer eid) {
 		
-		Optional<Employee> findEmployee = employeeDAO.findById(eid);
+		Optional<Employee> findEmployee = employeeRepo.findById(eid);
 		
 		if (findEmployee != null) {
-			employeeDAO.deleteById(eid);
+			employeeRepo.deleteById(eid);
 		}
 		return getAllEmployees();
 	}
