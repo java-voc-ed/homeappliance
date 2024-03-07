@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.erp.demo.model.Member;
+import com.erp.demo.model.physical.Member;
 import com.erp.demo.service.internal.MemeberMgmt;
 
 @RestController

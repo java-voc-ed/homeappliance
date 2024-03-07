@@ -1,4 +1,4 @@
-package com.erp.demo.model;
+package com.erp.demo.model.physical;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

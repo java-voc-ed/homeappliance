@@ -1,4 +1,4 @@
-package com.erp.demo.model;
+package com.erp.demo.model.physical;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

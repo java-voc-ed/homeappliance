@@ -1,4 +1,4 @@
-package com.erp.demo.model;
+package com.erp.demo.model.physical;
 // Generated 2024�~3��2�� �U��7:02:46 by Hibernate Tools 6.3.1.Final
 
 import jakarta.persistence.Column;

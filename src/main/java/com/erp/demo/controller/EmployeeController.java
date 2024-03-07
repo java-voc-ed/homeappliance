@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.erp.demo.model.physical.Employee;
 import com.erp.demo.repo.EmployeeRepo;
-import com.erp.demo.model.Employee;
 
 
 
