@@ -16,14 +16,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.erp.demo.model.physical.Member;
-import com.erp.demo.service.internal.MemeberMgmt;
+import com.erp.demo.service.internal.MemberMgmt;
 
 @RestController
 @RequestMapping("/api/in/v1/members")
 public class MemberMgmtController {
 	
 	@Autowired
-	MemeberMgmt memberMgmt;
+	MemberMgmt memberMgmt;
 	
 	@GetMapping
 	public ResponseEntity<List<Member>> getAll() {

@@ -34,7 +34,7 @@ public class Employee {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "EID")
-	private Integer EID;
+	private Integer eid;
 	
 	private String username;
 	private String password;
