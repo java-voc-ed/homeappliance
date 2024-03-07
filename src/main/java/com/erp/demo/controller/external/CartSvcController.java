@@ -17,8 +17,8 @@ import com.erp.demo.service.external.CartSvc;
 @RequestMapping("/api/ex/v1/carts")
 public class CartSvcController {
 	
-	@Autowired
-	CartSvc cartSvc;
+//	@Autowired
+//	CartSvc cartSvc;
 	
 //	@GetMapping
 //	public ResponseEntity<Cart> getByMid() {

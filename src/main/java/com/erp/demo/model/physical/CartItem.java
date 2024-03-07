@@ -16,7 +16,7 @@ public class CartItem {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	private String mid;
-	private String pid;
+	private int mid;
+	private int pid;
 	private int quantity;
 }

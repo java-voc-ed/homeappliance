@@ -48,6 +48,7 @@ public class MemberMgmtController {
 		return (id.equalsIgnoreCase(member.getMid().toString()) && memberMgmt.update(member).isPresent())
 				? ResponseEntity.noContent().location(URI.create("/api/in/v1/members/" + id)).build()
 				: ResponseEntity.badRequest().body("Member does not exist.");
+
 	}
 	
 	@DeleteMapping(value = "/{id}")

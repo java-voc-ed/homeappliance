@@ -11,10 +11,10 @@ import com.erp.demo.repo.ProductRepo;
 
 public class CartSvc {
 
-	@Autowired
-	CartRepo cartRepo;
-	@Autowired
-	ProductRepo productRepo;
+//	@Autowired
+//	CartRepo cartRepo;
+//	@Autowired
+//	ProductRepo productRepo;
 	
 //	public Optional<Cart> getByMid() {
 //		/**
