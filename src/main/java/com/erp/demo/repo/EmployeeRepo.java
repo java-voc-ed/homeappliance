@@ -6,4 +6,8 @@ import com.erp.demo.model.physical.Employee;
 
 public interface EmployeeRepo extends JpaRepository<Employee, Integer>{
 
+	Boolean existsByUsernameEquals(String username);
+
+	Boolean existsByNationalIdEquals(String nationalId);
+
 }

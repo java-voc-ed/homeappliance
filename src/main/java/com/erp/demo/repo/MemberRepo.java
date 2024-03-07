@@ -8,6 +8,6 @@ public interface MemberRepo extends JpaRepository<Member, Integer>{
 
 	Boolean existsByUsernameEquals(String username);
 
-	Boolean existsByNationalId(String nationalld);
+	Boolean existsByNationalIdEquals(String nationalld);
 
 }

@@ -10,7 +10,7 @@ import com.erp.demo.model.physical.Member;
 import com.erp.demo.repo.MemberRepo;
 
 @Service
-public class MemeberMgmt {
+public class MemberMgmt {
 
 	@Autowired
 	MemberRepo memberRepo;
@@ -28,7 +28,8 @@ public class MemeberMgmt {
 	}
 
 	public Optional<Member> create(Member member) {
-		return (!memberRepo.existsById(member.getMid()))
+		return (!memberRepo.existsByNationalIdEquals(member.getNationalId())
+				&& !memberRepo.existsByUsernameEquals(member.getUsername()))
 				? Optional.of(memberRepo.save(member))
 				: Optional.empty();
 	}
@@ -53,7 +54,7 @@ public class MemeberMgmt {
 	}
 	
 	public Boolean hasDuplicateNationalId(Member member) {
-		return memberRepo.existsByNationalId(member.getNationalId());
+		return memberRepo.existsByNationalIdEquals(member.getNationalId());
 	}
 	
 }
