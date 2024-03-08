@@ -36,9 +36,9 @@ public class DispatchmentMgmtController {
 		return ResponseEntity.of(dispatchmentMgmt.getById(id));
 	}
 	
-	@GetMapping(value = "/query/oid")
+	@GetMapping(value = "/search")
 	public ResponseEntity<Dispatchment> getByOid(@RequestParam("id") Integer oid) {
-		return ResponseEntity.of(dispatchmentMgmt.getById(oid));
+		return ResponseEntity.of(dispatchmentMgmt.getByOid(oid));
 	}	
 	
 	@PostMapping(value = "/add")
