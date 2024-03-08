@@ -64,25 +64,5 @@ public class Member implements java.io.Serializable {
 	@Column(length=45)
 	private String updateName;
 	
-	public Integer getMid() {
-		return mid;
-	}
-	public void setMid(Integer mid) {
-		this.mid = mid;
-	}
-	public String getUsername() {
-		return username;
-	}
-	public void setUsername(String username) {
-		this.username = username;
-	}
-	public String getNationalId() {
-		return nationalId;
-	}
-	public void setNationalId(String nationalId) {
-		this.nationalId = nationalId;
-	}
-
-	
 	
 }

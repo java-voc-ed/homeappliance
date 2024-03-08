@@ -27,7 +27,7 @@ public class Order implements java.io.Serializable {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer oid;
-	private String mid;
+	private Integer mid;
 	private int status;
 	private Integer amount;
 	private Integer total;

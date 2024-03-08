@@ -27,8 +27,8 @@ public class Dispatchment implements java.io.Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer did;
 	private Integer oid;
-	private String dispEid1;
-	private String dispEid2;
+	private Integer dispEid1;
+	private Integer dispEid2;
 	private char status;
 	@CreatedDate()
 	private Timestamp createTime;
