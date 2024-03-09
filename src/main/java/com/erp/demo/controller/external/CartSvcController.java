@@ -6,7 +6,9 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,13 +26,31 @@ public class CartSvcController {
 	@Autowired
 	CartSvc cartSvc;
 	
+	/**
+	 * CRUD Operation
+	 */
+	
+	/**
+	 * 開啟購物車列表時呼叫。
+	 * @return
+	 */
 	@GetMapping
-	public ResponseEntity<List<CartItem>> getByMid() {
-		return ResponseEntity.ok(cartSvc.getByMid());
+	public ResponseEntity<List<CartItem>> getAll() {
+		return ResponseEntity.ok(cartSvc.getAll());
 	}
 	
 	/**
-	 * 從商品頁添加單一商品時呼叫。
+	 * 完成對單一 CartItem 變更後呼叫。
+	 * @param id
+	 * @return
+	 */
+	@GetMapping(value = "/{id}")
+	public ResponseEntity<CartItem> getById(@PathVariable("id") Integer id) {
+		return ResponseEntity.of(cartSvc.getById(id));
+	}
+	
+	/**
+	 * 從商品頁添加單一 Product 到購物車時呼叫。
 	 * @param pid
 	 * @param quantity
 	 * @return
@@ -40,21 +60,44 @@ public class CartSvcController {
 		Optional<CartItem> cartItem = cartSvc.add(pid, quantity);
 		return (cartItem.isPresent()) 
 				? ResponseEntity.created(URI.create("/api/ex/v1/carts")).build()
-				: ResponseEntity.badRequest().body("Product does not exist.");		
+				: ResponseEntity.badRequest().body("購物車內商品種類已達上限。");		
 	}
 	
 	/**
-	 * 從購物車頁上作變更時呼叫。
+	 * 從購物車頁上對單一 CartItem 作變更時呼叫。
 	 * @param cartToSave
 	 * @return
 	 */
+	@PutMapping(value = "/{id}")
+	public ResponseEntity<String> update(@PathVariable("id") Integer id, @RequestBody CartItem cartItemToUpdate) {
+		return (id == cartItemToUpdate.getId()
+				&& cartSvc.update(cartItemToUpdate).isPresent()) 
+				? ResponseEntity.noContent().location(URI.create("/api/ex/v1/carts")).build()
+				: ResponseEntity.badRequest().body("更新失敗。");		
+	}
 	
-//	@PutMapping(value = "/save")
-//	public ResponseEntity<String> save(@RequestBody List<CartItem> cartToSave) {
-//		List<CartItem> savedCart = cartSvc.save(cartToSave);
-//		return (true) 
-//				? ResponseEntity.noContent().location(URI.create("/api/ex/v1/carts")).build()
-//				: ResponseEntity.badRequest().body("Product does not exist.");		
-//	}
+	/**
+	 * 移除購物車內所有 CartItems。
+	 * @return
+	 */
+	@DeleteMapping
+	public ResponseEntity<String> deleteAll() {
+		return (cartSvc.deleteAll().isEmpty())
+				? ResponseEntity.noContent().build()
+				: ResponseEntity.badRequest().body("移除失敗");
+	}
 	
+	/**
+	 * 移除個別 CartItem。
+	 * @param id
+	 * @return
+	 */
+	@DeleteMapping(value = "/{id}")
+	public ResponseEntity<String> deleteById(@PathVariable("id") Integer id) {
+		Optional<CartItem> deletedCartItem = cartSvc.deleteById(id);
+		return (deletedCartItem.isEmpty())
+				? ResponseEntity.noContent().build()
+				: ResponseEntity.badRequest().body("移除失敗");
+	}	
+		
 }

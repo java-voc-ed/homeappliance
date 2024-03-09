@@ -8,38 +8,38 @@ import org.springframework.stereotype.Service;
 
 import com.erp.demo.model.physical.CartItem;
 import com.erp.demo.model.physical.Member;
-import com.erp.demo.repo.CartRepo;
+import com.erp.demo.repo.CartItemRepo;
 import com.erp.demo.repo.ProductRepo;
-
-import jakarta.transaction.Transactional;
 
 @Service
 public class CartSvc {
 
 	@Autowired
-	CartRepo cartRepo;
+	CartItemRepo cartItemRepo;
 	@Autowired
 	ProductRepo productRepo;
 	
-	public List<CartItem> getByMid() {
-		/**
-		 * TODO: Get member from Spring Security after its implementation.
-		 */
-		Member loggedInMember = new Member();
-		loggedInMember.setMid(1);
-		
-		return cartRepo.findAllByMid(loggedInMember.getMid());
+	/**
+	 * CRUD Operation
+	 */
+	
+	public List<CartItem> getAll() {
+		Member loggedInMember = getLoggedInMember();
+		return cartItemRepo.findAllByMid(loggedInMember.getMid());
 	}
+	
+	public Optional<CartItem> getById(Integer id) {
+		Member loggedInMember = getLoggedInMember();
+		Optional<CartItem> cartItem = cartItemRepo.findById(id);
+		return (cartItem.isPresent() 
+				&& cartItem.get().getMid() == loggedInMember.getMid())
+				? cartItem
+				: Optional.empty();
+	}			
 
 	public Optional<CartItem> add(Integer pid, Integer quantity) {
-		/**
-		 * TODO: Get member from Spring Security after its implementation.
-		 */
-		Member loggedInMember = new Member();
-		loggedInMember.setMid(999);
-		
-		List<CartItem> cart = cartRepo.findAllByMid(loggedInMember.getMid());
-		Integer productInventory = productRepo.findById(pid).get().getInventory();
+		Member loggedInMember = getLoggedInMember();		
+		List<CartItem> cart = cartItemRepo.findAllByMid(loggedInMember.getMid());
 		CartItem addedCartItem;
 		
 		/**
@@ -52,59 +52,68 @@ public class CartSvc {
 		for (CartItem cartItem : cart) {
 			if (cartItem.getPid() == pid) {
 				addedCartItem = cartItem;
-				cartItem.setQuantity(Math.min((cartItem.getQuantity() + 1), productInventory));
+				cartItem.setQuantity(validateQuantity((cartItem.getQuantity() + 1), pid));
 				return Optional.ofNullable(addedCartItem);
 			}
 		}
+		
 		/**
 		 * 若該會員的購物車內，查無同款商品的 CartItem，則...
+		 * 確認該會員購物車內商品種類是否已達上限（10），若否，則...
 		 * 1. 創建一筆新的 CartItem 紀錄、
 		 * 2. 回傳該筆 CartItem 給 Controller。
 		 */
-		cartRepo.save(addedCartItem = new CartItem(-1, loggedInMember.getMid(), pid, Math.min(1, productInventory)));
-		return Optional.ofNullable(addedCartItem);
+		if (cart.size() <= 10) {
+			cartItemRepo.save(addedCartItem = new CartItem(-1, loggedInMember.getMid(), pid, validateQuantity(1, pid)));
+			return Optional.ofNullable(addedCartItem);	
+		} else {
+			return Optional.empty();
+		}
+		
 	}
 	
-//	@Transactional
-//	public List<CartItem> save(List<CartItem> cartToSave) {
-//		/**
-//		 * TODO: Get member from Spring Security after its implementation.
-//		 */
-//		Member loggedInMember = new Member();
-//		loggedInMember.setMid(999);
-//		
-//		
-//		return (true)
-//				? cartToSave
-//				: getByMid();
-//	}
-//	
-//	private void validate(CartItem cartItem) {
-//		
-//		Cart
-//		
-//		/**
-//		 * Validate Product:
-//		 */
-//		
-//		
-//		
-//		
-//		/**
-//		 * Validate quantity:
-//		 */
-//		if (quantity == null) {
-//			quantity = 1;
-//		}
-//		
-//		if (quantity > 10) {
-//			quantity = 10;
-//		}
-//		
-//		Integer stock = productRepo.findById(pid).get(); 		
-//		if (quantity > stock) {
-//			quantity = stock;
-//		}
-//	}
+	public Optional<CartItem> update(CartItem cartItemToUpdate) {
+		Member loggedInMember = getLoggedInMember();
+		return (cartItemToUpdate.getMid() == loggedInMember.getMid())
+				? Optional.of(cartItemRepo.save(cartItemToUpdate))
+				: Optional.empty();
+	}
+	
+	public List<CartItem> deleteAll() {
+		Member loggedInMember = getLoggedInMember();
+		cartItemRepo.deleteAllByMid(loggedInMember.getMid());
+		return cartItemRepo.findAllByMid(loggedInMember.getMid());
+	}
+	
 
+	public Optional<CartItem> deleteById(Integer id) {
+		Member loggedInMember = getLoggedInMember();
+		Optional<CartItem> cartItem = cartItemRepo.findById(id);
+		if (cartItem.isPresent() 
+			&& cartItem.get().getMid() == loggedInMember.getMid()) {
+			cartItemRepo.deleteById(id);
+		}
+		return cartItemRepo.findById(id);
+	}
+
+	/**
+	 * Validation
+	 */
+
+	private Integer validateQuantity(Integer quantity, Integer pid) {
+		return Math.min(quantity, productRepo.findById(pid).get().getInventory());
+	}
+
+	/**
+	 * Authentication
+	 */
+	private Member getLoggedInMember() {
+		/**
+		 * TODO: Get member from Spring Security after its implementation.
+		 */
+		Member loggedInMember = new Member();
+		loggedInMember.setMid(1);
+		return loggedInMember;
+	}
+	
 }
