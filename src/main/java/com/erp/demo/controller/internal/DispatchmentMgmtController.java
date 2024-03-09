@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.erp.demo.model.physical.Dispatchment;
@@ -26,6 +27,10 @@ public class DispatchmentMgmtController {
 	@Autowired
 	DispatchmentMgmt dispatchmentMgmt;
 	
+	/**
+	 * CRUD Operation
+	 */
+	
 	@GetMapping
 	public ResponseEntity<List<Dispatchment>> getAll() {
 		return ResponseEntity.ok().body(dispatchmentMgmt.getAll());
@@ -37,8 +42,8 @@ public class DispatchmentMgmtController {
 	}
 	
 	@GetMapping(value = "/search")
-	public ResponseEntity<Dispatchment> getByOid(@RequestParam("id") Integer oid) {
-		return ResponseEntity.of(dispatchmentMgmt.getByOid(oid));
+	public ResponseEntity<List<Dispatchment>> getByOid(@RequestParam("id") Integer oid) {
+		return ResponseEntity.ok().body(dispatchmentMgmt.getByOid(oid));
 	}	
 	
 	@PostMapping(value = "/add")
@@ -50,15 +55,15 @@ public class DispatchmentMgmtController {
 	}
 	
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<String> update(@PathVariable("id") String id, @RequestBody Dispatchment dispatchment) {
-		return (id.equalsIgnoreCase(dispatchment.getDid().toString()) && dispatchmentMgmt.update(dispatchment).isPresent())
+	public ResponseEntity<String> update(@PathVariable("id") Integer id, @RequestBody Dispatchment dispatchment) {
+		return (id.equals(dispatchment.getDid()) && dispatchmentMgmt.update(dispatchment).isPresent())
 				? ResponseEntity.noContent().location(URI.create("/api/in/v1/dispatchments/" + id)).build()
 				: ResponseEntity.badRequest().body("Dispatchment does not exist.");
 
 	}
 	
 	@DeleteMapping(value = "/{id}")
-	public ResponseEntity<String> delete(@PathVariable("id") String id) {
+	public ResponseEntity<String> delete(@PathVariable("id") Integer id) {
 		Optional<Dispatchment> deletedDispatchment = dispatchmentMgmt.delete(id);
 		return (deletedDispatchment.isEmpty())
 				? ResponseEntity.noContent().build()

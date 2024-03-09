@@ -26,8 +26,8 @@ public class DispatchmentMgmt {
 		return dispatchmentRepo.findById(id);
 	}
 	
-	public Optional<Dispatchment> getByOid(Integer oid) {
-		return Optional.ofNullable(dispatchmentRepo.findByOid(oid));
+	public List<Dispatchment> getByOid(Integer oid) {
+		return dispatchmentRepo.findAllByOid(oid);
 	}
 
 	public Optional<Dispatchment> create(Dispatchment dispatchment) {
@@ -42,8 +42,8 @@ public class DispatchmentMgmt {
 				: Optional.empty();
 	}
 	
-	public Optional<Dispatchment> delete(String id) {
-		dispatchmentRepo.deleteById(Integer.valueOf(id));
-		return dispatchmentRepo.findById(Integer.valueOf(id));		
+	public Optional<Dispatchment> delete(Integer id) {
+		dispatchmentRepo.deleteById(id);
+		return dispatchmentRepo.findById(id);		
 	}
 }

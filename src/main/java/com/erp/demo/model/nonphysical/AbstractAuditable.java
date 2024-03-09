@@ -19,7 +19,7 @@ import lombok.Data;
 
 @Data
 @MappedSuperclass
-public abstract class CustomAbstractAuditable {
+public abstract class AbstractAuditable {
 	
 	/**
 	 * Creation Metadata

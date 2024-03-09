@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.erp.demo.model.physical.Order;
@@ -32,9 +33,15 @@ public class OrderMgmtController {
 	}	
 	
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<Order> getById(@PathVariable("id") String id) {
+	public ResponseEntity<Order> getById(@PathVariable("id") Integer id) {
 		return ResponseEntity.of(orderMgmt.getById(id));
 	}
+	
+	@GetMapping(value = "search")
+	public ResponseEntity<List<Order>> getByMid(@RequestParam("id") Integer mid) {
+		return ResponseEntity.ok().body(orderMgmt.getByMid(mid));
+	}
+	
 	
 	@PostMapping(value = "/add")
 	public ResponseEntity<String> add(@RequestBody Order order) {
@@ -45,15 +52,15 @@ public class OrderMgmtController {
 	}
 	
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<String> update(@PathVariable("id") String id, @RequestBody Order order) {
-		return (id.equalsIgnoreCase(order.getOid().toString()) && orderMgmt.update(order).isPresent())
+	public ResponseEntity<String> update(@PathVariable("id") Integer id, @RequestBody Order order) {
+		return (id.equals(order.getOid()) && orderMgmt.update(order).isPresent())
 				? ResponseEntity.noContent().location(URI.create("/api/in/v1/orders/" + id)).build()
 				: ResponseEntity.badRequest().body("Order does not exist.");
 
 	}
 	
 	@DeleteMapping(value = "/{id}")
-	public ResponseEntity<String> delete(@PathVariable("id") String id) {
+	public ResponseEntity<String> delete(@PathVariable("id") Integer id) {
 		Optional<Order> deletedOrder = orderMgmt.delete(id);
 		return (deletedOrder.isEmpty())
 				? ResponseEntity.noContent().build()

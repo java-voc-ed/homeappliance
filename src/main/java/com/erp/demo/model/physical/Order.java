@@ -6,9 +6,13 @@ import java.sql.Timestamp;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import com.erp.demo.model.nonphysical.AbstractAuditable;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -23,39 +27,33 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Order implements java.io.Serializable {
+@EntityListeners(AuditingEntityListener.class)
+public class Order extends AbstractAuditable implements java.io.Serializable {
+
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer oid;
 	private Integer mid;
 	private int status;
 	private Integer amount;
 	private Integer total;
-	@Column(length=50)
+	@Column(length = 50)
 	private String paymentCode;
-	@Column(length=100)
+	@Column(length = 100)
 	private String shippingMethod;
-	@Column(length=45)
+	@Column(length = 45)
 	private String recipient;
-	@Column(length=10)
+	@Column(length = 10)
 	private String cellphone;
-	@Column(length=4)
+	@Column(length = 4)
 	private String landlineprefix;
-	@Column(length=8)
+	@Column(length = 8)
 	private String landline;
-	@Column(length=255)
+	@Column(length = 255)
 	private String email;
 	private int postalCode;
 	private String address;
 	private String did;
 	private String footnote;
-	@CreatedDate()
-	private Timestamp createTime;
-	// 修改時自動創建時間
-	@LastModifiedDate
-	private Timestamp updateTime;
-	@LastModifiedBy
-	@Column(length=45)
-	private String updateName;
 
 }
