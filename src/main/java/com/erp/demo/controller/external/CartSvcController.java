@@ -59,7 +59,7 @@ public class CartSvcController {
 	public ResponseEntity<String> add(@RequestParam("pid") Integer pid, @RequestParam("quantity") Integer quantity) {
 		Optional<CartItem> cartItem = cartSvc.add(pid, quantity);
 		return (cartItem.isPresent()) 
-				? ResponseEntity.created(URI.create("/api/ex/v1/carts")).build()
+				? ResponseEntity.created(URI.create("/api/ex/v1/carts" + cartItem.get().getId())).build()
 				: ResponseEntity.badRequest().body("購物車內商品種類已達上限。");		
 	}
 	
@@ -70,9 +70,10 @@ public class CartSvcController {
 	 */
 	@PutMapping(value = "/{id}")
 	public ResponseEntity<String> update(@PathVariable("id") Integer id, @RequestBody CartItem cartItemToUpdate) {
+		Optional<CartItem> updatedCartItem = cartSvc.update(cartItemToUpdate);
 		return (id == cartItemToUpdate.getId()
-				&& cartSvc.update(cartItemToUpdate).isPresent()) 
-				? ResponseEntity.noContent().location(URI.create("/api/ex/v1/carts")).build()
+				&& updatedCartItem.isPresent()) 
+				? ResponseEntity.noContent().location(URI.create("/api/ex/v1/carts" + id)).build()
 				: ResponseEntity.badRequest().body("更新失敗。");		
 	}
 	

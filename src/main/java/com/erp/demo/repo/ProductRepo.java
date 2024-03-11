@@ -9,5 +9,7 @@ import com.erp.demo.model.physical.Product;
 public interface ProductRepo extends JpaRepository<Product, Integer>{
 
 	List<Product> findAllByCategory(String category);
+
+	Boolean existsBySku(String sku);
 	
 }

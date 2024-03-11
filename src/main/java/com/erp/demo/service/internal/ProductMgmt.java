@@ -18,35 +18,32 @@ public class ProductMgmt {
 	ProductRepo productRepo;
 	
 	public List<Product> getAll() {
-		// TODO Auto-generated method stub
-		return null;
+		return productRepo.findAll();
 	}
 
 	public Optional<Product> getById(Integer id) {
-		// TODO Auto-generated method stub
-		return null;
+		return productRepo.findById(id);
 	}
 	
 	public List<Product> getByCategory(String category) {
-		// TODO Auto-generated method stub
-		productRepo.findAllByCategory(category);
-		return null;
+		return productRepo.findAllByCategory(category); 
 	}
 
 	public Optional<Product> create(Product product) {
-		// TODO Auto-generated method stub
-		// 存入前請檢查唯一值 SKU 是否有重複。 
-		return null;
+		return (!productRepo.existsBySku(product.getSku()))
+				? Optional.of(productRepo.save(product))
+				: Optional.empty();
 	}
 
 	public Optional<Product> update(Product product) {
-		// TODO Auto-generated method stub
-		return null;
+		return  (productRepo.existsById(product.getPid()))
+				? Optional.of(productRepo.save(product))
+				: Optional.empty();
 	}
 
 	public Optional<Product> delete(Integer id) {
-		// TODO Auto-generated method stub
-		return null;
+		productRepo.deleteById(id);
+		return productRepo.findById(id);		
 	}	
 	
 }

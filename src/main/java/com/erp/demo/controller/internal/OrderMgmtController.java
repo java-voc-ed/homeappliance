@@ -38,7 +38,7 @@ public class OrderMgmtController {
 	}
 	
 	@GetMapping(value = "search")
-	public ResponseEntity<List<Order>> getByMid(@RequestParam("id") Integer mid) {
+	public ResponseEntity<List<Order>> getByMid(@RequestParam("mid") Integer mid) {
 		return ResponseEntity.ok().body(orderMgmt.getByMid(mid));
 	}
 	
