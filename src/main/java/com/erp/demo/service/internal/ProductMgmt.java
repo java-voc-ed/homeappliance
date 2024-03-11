@@ -30,6 +30,7 @@ public class ProductMgmt {
 	}
 
 	public Optional<Product> create(Product product) {
+		product.setPid(null);
 		return (!productRepo.existsBySku(product.getSku()))
 				? Optional.of(productRepo.save(product))
 				: Optional.empty();

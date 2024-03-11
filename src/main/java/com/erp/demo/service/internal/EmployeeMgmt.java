@@ -28,6 +28,7 @@ public class EmployeeMgmt {
 	}
 
 	public Optional<Employee> create(Employee employee) {
+		employee.setEid(null);
 		return (!employeeRepo.existsByNationalIdEquals(employee.getNationalId())
 				&& !employeeRepo.existsByUsernameEquals(employee.getUsername()))
 				? Optional.of(employeeRepo.save(employee))

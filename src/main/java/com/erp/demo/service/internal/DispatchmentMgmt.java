@@ -31,6 +31,7 @@ public class DispatchmentMgmt {
 	}
 
 	public Optional<Dispatchment> create(Dispatchment dispatchment) {
+		dispatchment.setDid(null);
 		return (!dispatchmentRepo.existsByOid(dispatchment.getOid()))
 				? Optional.of(dispatchmentRepo.save(dispatchment))
 				: Optional.empty();

@@ -22,7 +22,6 @@ import com.erp.demo.service.internal.EmployeeMgmt;
 
 @RestController
 @RequestMapping("/api/in/v1/employees")
-@CrossOrigin
 public class EmployeeMgmtController {
 	
 	@Autowired

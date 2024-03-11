@@ -41,6 +41,8 @@ public class OrderMgmt {
 
 	public Optional<Order> create(Order order) {
 		
+		order.setOid(null);
+		
 		validateOrderItems(order);
 		validateOrder(order);
 		

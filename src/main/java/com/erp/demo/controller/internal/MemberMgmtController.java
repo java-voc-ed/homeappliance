@@ -21,7 +21,6 @@ import com.erp.demo.service.internal.MemberMgmt;
 
 @RestController
 @RequestMapping("/api/in/v1/members")
-@CrossOrigin
 public class MemberMgmtController {
 	
 	@Autowired

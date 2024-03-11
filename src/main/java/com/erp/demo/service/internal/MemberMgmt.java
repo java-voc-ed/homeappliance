@@ -28,6 +28,7 @@ public class MemberMgmt {
 	}
 
 	public Optional<Member> create(Member member) {
+		member.setMid(null);
 		return (!memberRepo.existsByNationalIdEquals(member.getNationalId())
 				&& !memberRepo.existsByUsernameEquals(member.getUsername()))
 				? Optional.of(memberRepo.save(member))
