@@ -32,8 +32,13 @@ public class ProductMgmtController {
 	}	
 	
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<Product> getById(@PathVariable("id") String id) {
+	public ResponseEntity<Product> getById(@PathVariable("id") Integer id) {
 		return ResponseEntity.of(productMgmt.getById(id));
+	}
+	
+	@GetMapping(value = "/categories/{category}")
+	public ResponseEntity<List<Product>> getByCategory(@PathVariable("category") String category) {
+		return ResponseEntity.ok().body(productMgmt.getByCategory(category));
 	}
 	
 	@PostMapping(value = "/add")
@@ -45,15 +50,15 @@ public class ProductMgmtController {
 	}
 	
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<String> update(@PathVariable("id") String id, @RequestBody Product product) {
-		return (id.equalsIgnoreCase(product.getPid().toString()) && productMgmt.update(product).isPresent())
+	public ResponseEntity<String> update(@PathVariable("id") Integer id, @RequestBody Product product) {
+		return (id.equals(product.getPid()) && productMgmt.update(product).isPresent())
 				? ResponseEntity.noContent().location(URI.create("/api/in/v1/products/" + id)).build()
 				: ResponseEntity.badRequest().body("Product does not exist.");
 
 	}
 	
 	@DeleteMapping(value = "/{id}")
-	public ResponseEntity<String> delete(@PathVariable("id") String id) {
+	public ResponseEntity<String> delete(@PathVariable("id") Integer id) {
 		Optional<Product> deletedProduct = productMgmt.delete(id);
 		return (deletedProduct.isEmpty())
 				? ResponseEntity.noContent().build()

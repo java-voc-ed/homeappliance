@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.erp.demo.model.physical.Employee;
+import com.erp.demo.model.physical.Member;
 import com.erp.demo.service.internal.EmployeeMgmt;
 
 @RestController
@@ -27,13 +28,17 @@ public class EmployeeMgmtController {
 	@Autowired
 	EmployeeMgmt employeeMgmt;
 	
+	/**
+	 * CRUD Operation
+	 */
+	
 	@GetMapping
 	public ResponseEntity<List<Employee>> getAll() {
 		return ResponseEntity.ok().body(employeeMgmt.getAll());
 	}	
 	
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<Employee> getById(@PathVariable("id") String id) {
+	public ResponseEntity<Employee> getById(@PathVariable("id") Integer id) {
 		return ResponseEntity.of(employeeMgmt.getById(id));
 	}
 	
@@ -46,20 +51,34 @@ public class EmployeeMgmtController {
 	}
 	
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<String> update(@PathVariable("id") String id, @RequestBody Employee employee) {
-		return (id.equalsIgnoreCase(employee.getEid().toString()) && employeeMgmt.update(employee).isPresent())
+	public ResponseEntity<String> update(@PathVariable("id") Integer id, @RequestBody Employee employee) {
+		return (id.equals(employee.getEid()) && employeeMgmt.update(employee).isPresent())
 				? ResponseEntity.noContent().location(URI.create("/api/in/v1/employees/" + id)).build()
 				: ResponseEntity.badRequest().body("Employee does not exist.");
 
 	}
 	
 	@DeleteMapping(value = "/{id}")
-	public ResponseEntity<String> delete(@PathVariable("id") String id) {
+	public ResponseEntity<String> delete(@PathVariable("id") Integer id) {
 		Optional<Employee> deletedEmployee = employeeMgmt.delete(id);
 		return (deletedEmployee.isEmpty())
 				? ResponseEntity.noContent().build()
 				: ResponseEntity.badRequest().body("Employee does not exist.");
 	}
 	
+	
+	/**
+	 * Form Pre-submission Validation
+	 */
+	
+	@PostMapping(value = "/validate/username")
+	public ResponseEntity<Boolean> isValidUsername(@RequestBody Employee employee) {
+		return ResponseEntity.ok(employeeMgmt.isValidUsername(employee));
+	}
 
+	@PostMapping(value = "/validate/national-id")
+	public ResponseEntity<Boolean> isValidNationalId(@RequestBody Employee employee) {
+		return ResponseEntity.ok(employeeMgmt.isValidNationalId(employee));
+	}
+	
 }

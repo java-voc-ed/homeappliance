@@ -23,8 +23,8 @@ public class EmployeeMgmt {
 		return employeeRepo.findAll();
 	}
 	
-	public Optional<Employee> getById(String id) {
-		return employeeRepo.findById(Integer.valueOf(id));
+	public Optional<Employee> getById(Integer id) {
+		return employeeRepo.findById(id);
 	}
 
 	public Optional<Employee> create(Employee employee) {
@@ -40,20 +40,22 @@ public class EmployeeMgmt {
 				: Optional.empty();
 	}
 	
-	public Optional<Employee> delete(String id) {
-		employeeRepo.deleteById(Integer.valueOf(id));
-		return employeeRepo.findById(Integer.valueOf(id));		
+	public Optional<Employee> delete(Integer id) {
+		employeeRepo.deleteById(id);
+		return employeeRepo.findById(id);		
 	}
 	
 	/**
-	 * Duplication Check
+	 * Validation
 	 */
 
-	public Boolean hasDuplicateUsername(Employee employee) {
+	public Boolean isValidUsername(Employee employee) {
+		// TODO: 可在這邊納入其他驗證規則。
 		return employeeRepo.existsByUsernameEquals(employee.getUsername());
 	}
 	
-	public Boolean hasDuplicateNationalId(Employee employee) {
+	public Boolean isValidNationalId(Employee employee) {
+		// TODO: 可在這邊納入其他驗證規則。
 		return employeeRepo.existsByNationalIdEquals(employee.getNationalId());
 	}
 

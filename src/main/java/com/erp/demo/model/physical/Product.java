@@ -24,13 +24,14 @@ public class Product {
 	private Integer pid;
 	private String sku;
 	private String name;
-	private String SubCategory;
-	private Boolean Enabled;
+	private String category;
+	private String subCategory;
+	private Boolean enabled;
 	private Integer price;
-	private Integer Inventory;
-	private String ShippingMethod;
-	private Timestamp StartTime;
-	private Timestamp EndTime;
-	private String Specs;
-	private String Desc;
+	private Integer inventory;
+	private String shippingMethod;
+	private Timestamp startTime;
+	private Timestamp endTime;
+	private String specs;
+	private String desc;
 }

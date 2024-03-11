@@ -23,8 +23,8 @@ public class MemberMgmt {
 		return memberRepo.findAll();
 	}
 	
-	public Optional<Member> getById(String id) {
-		return memberRepo.findById(Integer.valueOf(id));
+	public Optional<Member> getById(Integer id) {
+		return memberRepo.findById(id);
 	}
 
 	public Optional<Member> create(Member member) {
@@ -40,21 +40,23 @@ public class MemberMgmt {
 				: Optional.empty();
 	}
 	
-	public Optional<Member> delete(String id) {
-		memberRepo.deleteById(Integer.valueOf(id));
-		return memberRepo.findById(Integer.valueOf(id));		
+	public Optional<Member> delete(Integer id) {
+		memberRepo.deleteById(id);
+		return memberRepo.findById(id);		
 	}
 	
 	/**
-	 * Duplication Check
+	 * Validation
 	 */
 
-	public Boolean hasDuplicateUsername(Member member) {
-		return memberRepo.existsByUsernameEquals(member.getUsername());
+	public Boolean isValidUsername(Member member) {
+		// TODO: 可在這邊納入其他驗證規則。
+		return !memberRepo.existsByUsernameEquals(member.getUsername());
 	}
 	
-	public Boolean hasDuplicateNationalId(Member member) {
-		return memberRepo.existsByNationalIdEquals(member.getNationalId());
+	public Boolean isValidNationalId(Member member) {
+		// TODO: 可在這邊納入其他驗證規則。
+		return !memberRepo.existsByNationalIdEquals(member.getNationalId());
 	}
 	
 }

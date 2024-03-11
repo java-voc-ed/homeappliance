@@ -7,9 +7,13 @@ import java.sql.Timestamp;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import com.erp.demo.model.nonphysical.AbstractAuditable;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -27,9 +31,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-//對應資料庫表名稱
-@Table(schema = "dbo", name = "Employee")
-public class Employee {
+@EntityListeners(AuditingEntityListener.class)
+public class Employee extends AbstractAuditable implements java.io.Serializable {
 
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -51,20 +54,8 @@ public class Employee {
 	private String landlineprefix;
 	private String landline;
 	private String email;
-	private byte postalCode;
+	private Byte postalCode;
 	private String address;
 	private String footnote;
-
-	// 創建時間(好像不會Work...)
-	@CreatedDate()
-	private Timestamp createTime;
-
-	// 修改時間(好像不會Work...)
-	@LastModifiedDate
-	private Timestamp updateTime;
-
-	@LastModifiedBy
-	private String updateName;
-
 	
 }
