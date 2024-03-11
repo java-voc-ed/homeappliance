@@ -21,8 +21,9 @@ public class OrderItem implements java.io.Serializable {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	private String oid;
-	private String pid;
-	private int quantity;
+	private Integer oid;
+	private Integer pid;
+	private Integer price;
+	private Integer quantity;
 
 }

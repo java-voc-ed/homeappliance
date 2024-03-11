@@ -1,7 +1,7 @@
 package com.erp.demo.model.physical;
 // Generated 2024�~3��2�� �U��7:02:46 by Hibernate Tools 6.3.1.Final
 
-import java.sql.Timestamp;
+import java.util.List;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
@@ -9,6 +9,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.erp.demo.model.nonphysical.AbstractAuditable;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -16,6 +17,7 @@ import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Transient;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -34,7 +36,7 @@ public class Order extends AbstractAuditable implements java.io.Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer oid;
 	private Integer mid;
-	private int status;
+	private Integer status;
 	private Integer amount;
 	private Integer total;
 	@Column(length = 50)
@@ -51,9 +53,15 @@ public class Order extends AbstractAuditable implements java.io.Serializable {
 	private String landline;
 	@Column(length = 255)
 	private String email;
-	private int postalCode;
+	private Integer postalCode;
 	private String address;
-	private String did;
+	private Integer did;
 	private String footnote;
+	@JsonInclude
+	@Transient
+	private List<OrderItem> orderItems;
+	@JsonInclude
+	@Transient
+	private Dispatchment dispatchment;
 
 }
