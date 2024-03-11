@@ -33,5 +33,5 @@ public class Product {
 	private Timestamp startTime;
 	private Timestamp endTime;
 	private String specs;
-	private String desc;
+	private String description;
 }
