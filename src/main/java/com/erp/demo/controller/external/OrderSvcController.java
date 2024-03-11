@@ -6,6 +6,5 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/ex/v1/orders")
 public class OrderSvcController {
-
 	
 }

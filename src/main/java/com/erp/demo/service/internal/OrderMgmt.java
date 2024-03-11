@@ -8,18 +8,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ProblemDetail;
 import org.springframework.stereotype.Service;
 
-import com.erp.demo.model.physical.Order;
+import com.erp.demo.model.physical.OrderDetail;
 import com.erp.demo.model.physical.OrderItem;
 import com.erp.demo.repo.DispatchmentRepo;
 import com.erp.demo.repo.OrderItemRepo;
-import com.erp.demo.repo.OrderRepo;
+import com.erp.demo.repo.OrderDetailRepo;
 import com.erp.demo.repo.ProductRepo;
 
 @Service
 public class OrderMgmt {
 	
 	@Autowired
-	OrderRepo orderRepo;
+	OrderDetailRepo orderDetailRepo;
 	@Autowired
 	OrderItemRepo orderItemRepo;
 	@Autowired
@@ -27,76 +27,76 @@ public class OrderMgmt {
 	@Autowired
 	ProductRepo productRepo;
 
-	public List<Order> getAll() {
-		return orderRepo.findAll();
+	public List<OrderDetail> getAll() {
+		return orderDetailRepo.findAll();
 	}
 
-	public Optional<Order> getById(Integer id) {
-		return orderRepo.findById(id);
+	public Optional<OrderDetail> getById(Integer id) {
+		return orderDetailRepo.findById(id);
 	}
 	
-	public List<Order> getByMid(Integer mid) {
-		return orderRepo.findAllByMid(mid);
+	public List<OrderDetail> getByMid(Integer mid) {
+		return orderDetailRepo.findAllByMid(mid);
 	}
 
-	public Optional<Order> create(Order order) {
+	public Optional<OrderDetail> create(OrderDetail orderDetail) {
 		
-		order.setOid(null);
+		orderDetail.setOid(null);
 		
-		validateOrderItems(order);
-		validateOrder(order);
+		validateOrderItems(orderDetail);
+		validateOrder(orderDetail);
 		
-		if (order != null) {
-			validateDispatchment(order);
-			validateTotal(order);
+		if (orderDetail != null) {
+			validateDispatchment(orderDetail);
+			validateTotal(orderDetail);
 			
-			if (order.getDispatchment() != null) {
-				order.setDid(dispatchmentRepo.save(order.getDispatchment()).getDid());
+			if (orderDetail.getDispatchment() != null) {
+				orderDetail.setDid(dispatchmentRepo.save(orderDetail.getDispatchment()).getDid());
 			}
 			
-			orderItemRepo.saveAll(order.getOrderItems());
-			order = orderRepo.save(order);
+			orderItemRepo.saveAll(orderDetail.getOrderItems());
+			orderDetail = orderDetailRepo.save(orderDetail);
 		}
 		
-		return Optional.ofNullable(order); 
+		return Optional.ofNullable(orderDetail); 
 		 
 	}
 
-	public Optional<Order> update(Order order) {
+	public Optional<OrderDetail> update(OrderDetail orderDetail) {
 
-		if (orderRepo.existsById(order.getDid())) {
+		if (orderDetailRepo.existsById(orderDetail.getDid())) {
 			return Optional.empty();
 		}
 		
-		validateOrderItems(order);
-		validateOrder(order);
+		validateOrderItems(orderDetail);
+		validateOrder(orderDetail);
 		
-		if (order != null) {
-			validateDispatchment(order);
-			validateTotal(order);
+		if (orderDetail != null) {
+			validateDispatchment(orderDetail);
+			validateTotal(orderDetail);
 			
-			if (order.getDispatchment() != null) {
-				order.setDid(dispatchmentRepo.save(order.getDispatchment()).getDid());
+			if (orderDetail.getDispatchment() != null) {
+				orderDetail.setDid(dispatchmentRepo.save(orderDetail.getDispatchment()).getDid());
 			}
 			
-			orderItemRepo.saveAll(order.getOrderItems());
-			order = orderRepo.save(order);
+			orderItemRepo.saveAll(orderDetail.getOrderItems());
+			orderDetail = orderDetailRepo.save(orderDetail);
 		}
 		
-		return Optional.ofNullable(order); 
+		return Optional.ofNullable(orderDetail); 
 	}
 
-	public Optional<Order> delete(Integer id) {
-		orderRepo.deleteById(id);
-		return orderRepo.findById(id);
+	public Optional<OrderDetail> delete(Integer id) {
+		orderDetailRepo.deleteById(id);
+		return orderDetailRepo.findById(id);
 	}
 
 	/**
 	 * Validation
 	 * @param orderItems
 	 */
-	private void validateOrderItems(Order order) {
-		List<OrderItem> orderItems = order.getOrderItems();
+	private void validateOrderItems(OrderDetail orderDetail) {
+		List<OrderItem> orderItems = orderDetail.getOrderItems();
 		List<OrderItem> validatedOrderItems;
 		// 驗證價格：
 		orderItems.forEach(
@@ -109,16 +109,16 @@ public class OrderMgmt {
 		validatedOrderItems = orderItems.stream().filter(
 				orderItem -> orderItem.getQuantity() > 0).collect(Collectors.toList());
 		// 更新 Order 的 OrderItem 列表：
-		order.setOrderItems(validatedOrderItems);
+		orderDetail.setOrderItems(validatedOrderItems);
 	}
 	
-	private void validateOrder(Order order) {
-		if (order.getOrderItems().isEmpty()) {
-			order = null;
+	private void validateOrder(OrderDetail orderDetail) {
+		if (orderDetail.getOrderItems().isEmpty()) {
+			orderDetail = null;
 		}
 	}
 	
-	private void validateDispatchment(Order order) {
+	private void validateDispatchment(OrderDetail order) {
 		Boolean requiresDispatchment = false;
 		List<OrderItem> orderItems = order.getOrderItems();		
 		requiresDispatchment = orderItems.stream().anyMatch(
@@ -128,7 +128,7 @@ public class OrderMgmt {
 		}
 	}
 	
-	private void validateTotal(Order order) {
+	private void validateTotal(OrderDetail order) {
 		order.setTotal(0);
 		order.getOrderItems().forEach(orderItem -> order.setTotal(order.getTotal() + orderItem.getPrice() * orderItem.getQuantity()));
 	}

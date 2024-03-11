@@ -8,7 +8,7 @@ import org.springframework.http.ProblemDetail;
 import org.springframework.stereotype.Service;
 
 import com.erp.demo.model.physical.Product;
-import com.erp.demo.repo.OrderRepo;
+import com.erp.demo.repo.OrderDetailRepo;
 import com.erp.demo.repo.ProductRepo;
 
 @Service

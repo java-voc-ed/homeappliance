@@ -10,4 +10,6 @@ public interface MemberRepo extends JpaRepository<Member, Integer>{
 
 	Boolean existsByNationalIdEquals(String nationalld);
 
+	Member findByUsername(String username);
+
 }

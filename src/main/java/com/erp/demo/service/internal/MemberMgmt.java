@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.erp.demo.model.physical.Member;
@@ -14,6 +15,8 @@ public class MemberMgmt {
 
 	@Autowired
 	MemberRepo memberRepo;
+	@Autowired
+	PasswordEncoder passwordEncoder;
 	
 	/**
 	 * CRUD Operation
@@ -29,6 +32,7 @@ public class MemberMgmt {
 
 	public Optional<Member> create(Member member) {
 		member.setMid(null);
+		member.setPassword(passwordEncoder.encode(member.getPassword()));
 		return (!memberRepo.existsByNationalIdEquals(member.getNationalId())
 				&& !memberRepo.existsByUsernameEquals(member.getUsername()))
 				? Optional.of(memberRepo.save(member))
