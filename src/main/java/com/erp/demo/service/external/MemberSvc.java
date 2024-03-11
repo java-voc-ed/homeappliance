@@ -1,12 +1,13 @@
 package com.erp.demo.service.external;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.erp.demo.model.authentication.MemberUserDetails;
 import com.erp.demo.model.physical.Member;
 import com.erp.demo.repo.MemberRepo;
 
@@ -25,13 +26,11 @@ public class MemberSvc {
 	/**
 	 * CRUD Operation
 	 */
-	
-	public List<Member> getAll() {
-		return memberRepo.findAll();
-	}
-	
+
 	public Optional<Member> getById(Integer id) {
-		return memberRepo.findById(id);
+		return (id.equals(getLoggedInMember().getMid()))
+				? memberRepo.findById(id)
+				: Optional.empty();
 	}
 
 	public Optional<Member> create(Member member) {
@@ -68,4 +67,8 @@ public class MemberSvc {
 		return !memberRepo.existsByNationalIdEquals(member.getNationalId());
 	}
 	
+	private MemberUserDetails getLoggedInMember() {
+		return (MemberUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+	}
+
 }

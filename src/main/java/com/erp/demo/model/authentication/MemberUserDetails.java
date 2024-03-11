@@ -16,6 +16,10 @@ public class MemberUserDetails implements UserDetails {
 		this.member = member;
 	}
 	
+	public Integer getMid() {
+		return member.getMid();
+	}
+	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		return List.of(new MemberRole());

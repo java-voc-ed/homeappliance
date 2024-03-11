@@ -4,8 +4,10 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import com.erp.demo.model.authentication.MemberUserDetails;
 import com.erp.demo.model.physical.CartItem;
 import com.erp.demo.model.physical.Member;
 import com.erp.demo.repo.CartItemRepo;
@@ -24,12 +26,12 @@ public class CartSvc {
 	 */
 	
 	public List<CartItem> getAll() {
-		Member loggedInMember = getLoggedInMember();
+		MemberUserDetails loggedInMember = getLoggedInMember();
 		return cartItemRepo.findAllByMid(loggedInMember.getMid());
 	}
 	
 	public Optional<CartItem> getById(Integer id) {
-		Member loggedInMember = getLoggedInMember();
+		MemberUserDetails loggedInMember = getLoggedInMember();
 		Optional<CartItem> cartItem = cartItemRepo.findById(id);
 		return (cartItem.isPresent() 
 				&& cartItem.get().getMid() == loggedInMember.getMid())
@@ -38,7 +40,7 @@ public class CartSvc {
 	}			
 
 	public Optional<CartItem> add(Integer pid, Integer quantity) {
-		Member loggedInMember = getLoggedInMember();		
+		MemberUserDetails loggedInMember = getLoggedInMember();		
 		List<CartItem> cart = cartItemRepo.findAllByMid(loggedInMember.getMid());
 		CartItem addedCartItem;
 		
@@ -52,7 +54,8 @@ public class CartSvc {
 		for (CartItem cartItem : cart) {
 			if (cartItem.getPid() == pid) {
 				addedCartItem = cartItem;
-				cartItem.setQuantity(validateQuantity((cartItem.getQuantity() + 1), pid));
+				
+//				cartItem.setQuantity(validateQuantity((cartItem.getQuantity() + 1), pid));
 				return Optional.ofNullable(addedCartItem);
 			}
 		}
@@ -73,21 +76,21 @@ public class CartSvc {
 	}
 	
 	public Optional<CartItem> update(CartItem cartItemToUpdate) {
-		Member loggedInMember = getLoggedInMember();
+		MemberUserDetails loggedInMember = getLoggedInMember();
 		return (cartItemToUpdate.getMid() == loggedInMember.getMid())
 				? Optional.of(cartItemRepo.save(cartItemToUpdate))
 				: Optional.empty();
 	}
 	
 	public List<CartItem> deleteAll() {
-		Member loggedInMember = getLoggedInMember();
+		MemberUserDetails loggedInMember = getLoggedInMember();
 		cartItemRepo.deleteAllByMid(loggedInMember.getMid());
 		return cartItemRepo.findAllByMid(loggedInMember.getMid());
 	}
 	
 
 	public Optional<CartItem> deleteById(Integer id) {
-		Member loggedInMember = getLoggedInMember();
+		MemberUserDetails loggedInMember = getLoggedInMember();
 		Optional<CartItem> cartItem = cartItemRepo.findById(id);
 		if (cartItem.isPresent() 
 			&& cartItem.get().getMid() == loggedInMember.getMid()) {
@@ -107,13 +110,14 @@ public class CartSvc {
 	/**
 	 * Authentication
 	 */
-	private Member getLoggedInMember() {
+	private MemberUserDetails getLoggedInMember() {
 		/**
 		 * TODO: Get member from Spring Security after its implementation.
 		 */
-		Member loggedInMember = new Member();
-		loggedInMember.setMid(1);
-		return loggedInMember;
+//		MemberUserDetails loggedInMember = new Member();
+//		loggedInMember.setMid(1);
+//		return loggedInMember;
+		return (MemberUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 	}
 	
 }

@@ -29,11 +29,6 @@ public class MemberSvcController {
 	 * CRUD Operation
 	 */
 	
-	@GetMapping
-	public ResponseEntity<List<Member>> getAll() {
-		return ResponseEntity.ok().body(memberSvc.getAll());
-	}	
-	
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<Member> getById(@PathVariable("id") Integer id) {
 		return ResponseEntity.of(memberSvc.getById(id));
