@@ -31,13 +31,16 @@ public class SecurityConfiguration {
 		 * authorizeHttpRequests() accepts a function with an AuthorizationManagerRequestMatcherRegistry parameter.
 		 */
 		httpSecurity
-			.authorizeHttpRequests(authorize -> authorize.requestMatchers("/api/ex/v1/members").hasRole("MEMBER"))
-			.formLogin(Customizer.withDefaults())
+			.authorizeHttpRequests(authorize 
+					-> authorize.requestMatchers("/api/ex/v1/members").hasRole("MEMBER"))
+			.formLogin(Customizer.withDefaults()).csrf((csrf) -> csrf.disable())
+			
 			.authorizeHttpRequests(
 					authorizationManagerRequestMatcherRegistry 
 					// TODO: IMPORTANT! METHODS .anyRequest().permitAll() IS FOR TESTING PURPOSES ONLY!
 					-> authorizationManagerRequestMatcherRegistry.anyRequest().permitAll()).csrf((csrf) -> csrf.disable());		
 		return httpSecurity.build();
+		
 	}
 	
 	@Bean 

@@ -53,9 +53,8 @@ public class CartSvc {
 		 */
 		for (CartItem cartItem : cart) {
 			if (cartItem.getPid() == pid) {
-				addedCartItem = cartItem;
-				
-//				cartItem.setQuantity(validateQuantity((cartItem.getQuantity() + 1), pid));
+				addedCartItem = cartItem;				
+				cartItem.setQuantity(validateQuantity((cartItem.getQuantity() + 1), pid));
 				return Optional.ofNullable(addedCartItem);
 			}
 		}
@@ -106,7 +105,7 @@ public class CartSvc {
 	private Integer validateQuantity(Integer quantity, Integer pid) {
 		return Math.min(quantity, productRepo.findById(pid).get().getInventory());
 	}
-
+	
 	/**
 	 * Authentication
 	 */
