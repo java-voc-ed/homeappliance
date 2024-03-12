@@ -43,6 +43,7 @@ public class MemberSvc {
 	}
 	
 	public Optional<Member> update(Member member) {
+		member.setPassword(member.getPassword());
 		return  (memberRepo.existsById(member.getMid()))
 				? Optional.of(memberRepo.save(member))
 				: Optional.empty();

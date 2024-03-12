@@ -42,6 +42,7 @@ public class MemberMgmtController {
 	
 	@PostMapping(value = "/add")
 	public ResponseEntity<String> add(@RequestBody Member member) {
+		member.setPassword(member.getPassword());
 		Optional<Member> createdMember = memberMgmt.create(member);
 		return (createdMember.isPresent())
 				? ResponseEntity.created(URI.create("/api/in/v1/members/" + createdMember.get().getMid())).build()

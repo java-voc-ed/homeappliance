@@ -44,9 +44,10 @@ public class OrderMgmt {
 		orderDetail.setOid(null);
 		
 		validateOrderItems(orderDetail);
-		validateOrder(orderDetail);
 		
-		if (orderDetail != null) {
+		if (orderDetail.getOrderItems().isEmpty()) {
+			return Optional.empty();
+		} else {
 			validateDispatchment(orderDetail);
 			validateTotal(orderDetail);
 			
@@ -71,9 +72,10 @@ public class OrderMgmt {
 		}
 		
 		validateOrderItems(orderDetail);
-		validateOrder(orderDetail);
 		
-		if (orderDetail != null) {
+		if (orderDetail.getOrderItems().isEmpty()) {
+			 return Optional.empty();
+		} else {
 			validateDispatchment(orderDetail);
 			validateTotal(orderDetail);
 			
@@ -112,12 +114,6 @@ public class OrderMgmt {
 				orderItem -> orderItem.getQuantity() > 0).collect(Collectors.toList());
 		// 更新 Order 的 OrderItem 列表：
 		orderDetail.setOrderItems(validatedOrderItems);
-	}
-	
-	private void validateOrder(OrderDetail orderDetail) {
-		if (orderDetail.getOrderItems().isEmpty()) {
-			orderDetail = null;
-		}
 	}
 	
 	private void validateDispatchment(OrderDetail order) {

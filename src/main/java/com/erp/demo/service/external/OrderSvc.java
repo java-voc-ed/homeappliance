@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.erp.demo.model.authentication.MemberUserDetails;
 import com.erp.demo.model.physical.OrderDetail;
 import com.erp.demo.model.physical.OrderItem;
+import com.erp.demo.repo.CartItemRepo;
 import com.erp.demo.repo.DispatchmentRepo;
 import com.erp.demo.repo.OrderDetailRepo;
 import com.erp.demo.repo.OrderItemRepo;
@@ -27,9 +28,11 @@ public class OrderSvc {
 	DispatchmentRepo dispatchmentRepo;
 	@Autowired
 	ProductRepo productRepo;
-	//getLoggedInMember().getMid()
+	@Autowired
+	CartItemRepo cartItemRepo;
+
 	public List<OrderDetail> getByMid() {
-		List<OrderDetail> orderDetailList = orderDetailRepo.findAllByMid(1);
+		List<OrderDetail> orderDetailList = orderDetailRepo.findAllByMid(getLoggedInMember().getMid());
 		orderDetailList.forEach(orderDetail 
 				-> orderDetail.setOrderItems(orderItemRepo.getAllByOid(orderDetail.getOid())));
 		return orderDetailList;
@@ -67,9 +70,10 @@ public class OrderSvc {
 		orderDetail.setOid(null);
 		orderDetail.setMid(getLoggedInMember().getMid());
 		validateOrderItems(orderDetail);
-		validateOrder(orderDetail);
 		
-		if (orderDetail != null) {
+		if (orderDetail.getOrderItems().isEmpty()) {
+			return Optional.empty();
+		} else {
 			validateDispatchment(orderDetail);
 			validateTotal(orderDetail);
 			
@@ -81,6 +85,14 @@ public class OrderSvc {
 			Integer oid = orderDetail.getOid();
 			orderDetail.getOrderItems().forEach(orderItem -> orderItem.setOid(oid));
 			orderItemRepo.saveAll(orderDetail.getOrderItems());
+			
+			// 刪除購物車內已訂購商品。
+			orderDetail.getOrderItems().forEach(orderItem 
+					-> cartItemRepo.deleteById(
+							cartItemRepo.findAllByMid(getLoggedInMember().getMid()).stream().filter(
+									cartItem -> cartItem.getPid().equals(orderItem.getPid())).
+							findFirst().get().getId()));
+			
 		}
 		
 		return Optional.ofNullable(orderDetail); 
@@ -107,12 +119,6 @@ public class OrderSvc {
 				orderItem -> orderItem.getQuantity() > 0).collect(Collectors.toList());
 		// 更新 Order 的 OrderItem 列表：
 		orderDetail.setOrderItems(validatedOrderItems);
-	}
-	
-	private void validateOrder(OrderDetail orderDetail) {
-		if (orderDetail.getOrderItems().isEmpty()) {
-			orderDetail = null;
-		}
 	}
 	
 	private void validateDispatchment(OrderDetail order) {
