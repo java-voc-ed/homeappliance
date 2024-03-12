@@ -110,12 +110,6 @@ public class CartSvc {
 	 * Authentication
 	 */
 	private MemberUserDetails getLoggedInMember() {
-		/**
-		 * TODO: Get member from Spring Security after its implementation.
-		 */
-//		MemberUserDetails loggedInMember = new Member();
-//		loggedInMember.setMid(1);
-//		return loggedInMember;
 		return (MemberUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 	}
 	

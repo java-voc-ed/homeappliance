@@ -54,8 +54,10 @@ public class OrderMgmt {
 				orderDetail.setDid(dispatchmentRepo.save(orderDetail.getDispatchment()).getDid());
 			}
 			
-			orderItemRepo.saveAll(orderDetail.getOrderItems());
 			orderDetail = orderDetailRepo.save(orderDetail);
+			Integer oid = orderDetail.getOid();
+			orderDetail.getOrderItems().forEach(orderItem -> orderItem.setOid(oid));
+			orderItemRepo.saveAll(orderDetail.getOrderItems());
 		}
 		
 		return Optional.ofNullable(orderDetail); 

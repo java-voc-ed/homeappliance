@@ -33,7 +33,7 @@ public class SecurityConfiguration {
 		httpSecurity
 			.authorizeHttpRequests(authorize 
 					-> authorize.requestMatchers("/api/ex/v1/members").hasRole("MEMBER"))
-			.formLogin(Customizer.withDefaults()).csrf((csrf) -> csrf.disable())
+			.formLogin(Customizer.withDefaults())
 			
 			.authorizeHttpRequests(
 					authorizationManagerRequestMatcherRegistry 

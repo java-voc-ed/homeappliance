@@ -39,7 +39,16 @@ public class MemberMgmt {
 				: Optional.empty();
 	}
 	
+	/**
+	 * TODO: 會 UPDATE 密碼！拆表！
+	 * @param member
+	 * @return
+	 */	
 	public Optional<Member> update(Member member) {
+		/**
+		 * TODO: FOR TESTING PURPOSES ONLY!
+		 */
+		member.setPassword(passwordEncoder.encode("1234"));
 		return  (memberRepo.existsById(member.getMid()))
 				? Optional.of(memberRepo.save(member))
 				: Optional.empty();
