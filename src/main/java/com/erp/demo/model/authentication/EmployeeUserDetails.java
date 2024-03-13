@@ -2,37 +2,42 @@ package com.erp.demo.model.authentication;
 
 import java.util.Collection;
 import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.erp.demo.model.physical.Member;
-import com.erp.demo.model.physical.MemberRole;
+import com.erp.demo.model.physical.Employee;
+import com.erp.demo.repo.EmRoleRepo;
 
-public class MemberUserDetails implements UserDetails {
+public class EmployeeUserDetails  implements UserDetails  {
 
-	private Member member;
+	@Autowired
+	EmRoleRepo emRoleRepo;
 	
-	public MemberUserDetails(Member member) {
-		this.member = member;
+	private Employee employee;
+	
+	private EmployeeUserDetails(Employee employee) {
+		this.employee = employee;
 	}
 	
-	public Integer getMid() {
-		return member.getMid();
-	}
+	public Integer getEid() {
+		return employee.getEid();
+	}	
 	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return List.of(new MemberRole());
+		return List.of(emRoleRepo.findById(employee.getRoleCode()).get());
 	}
 
 	@Override
 	public String getPassword() {
-		return member.getPassword();
+		return employee.getPassword();
 	}
 
 	@Override
 	public String getUsername() {
-		return member.getUsername();
+		return employee.getUsername();
 	}
 
 	@Override
@@ -54,5 +59,7 @@ public class MemberUserDetails implements UserDetails {
 	public boolean isEnabled() {
 		return true;
 	}
+	
+	
 
 }

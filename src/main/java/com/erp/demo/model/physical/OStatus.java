@@ -24,5 +24,4 @@ public class OStatus implements java.io.Serializable {
 	private String ostatusName;
 	@Column(length=255)
 	private String ostatusDesc;
-
 }

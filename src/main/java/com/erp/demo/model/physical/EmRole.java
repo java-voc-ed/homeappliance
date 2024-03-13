@@ -1,5 +1,7 @@
 package com.erp.demo.model.physical;
 
+import org.springframework.security.core.GrantedAuthority;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -18,12 +20,17 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class EmRole implements java.io.Serializable {
+public class EmRole implements GrantedAuthority, java.io.Serializable {
 	@Id
 	@Column(length=50)
 	private String roleCode;
 	@Column(length=255)
 	private String roleName;
 	private char memberSelectR1;
+	
+	@Override
+	public String getAuthority() {
+		return roleName;
+	}
 
 }

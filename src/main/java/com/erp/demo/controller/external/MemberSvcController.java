@@ -29,30 +29,30 @@ public class MemberSvcController {
 	 * CRUD Operation
 	 */
 	
-	@GetMapping(value = "/{id}")
-	public ResponseEntity<Member> getById(@PathVariable("id") Integer id) {
-		return ResponseEntity.of(memberSvc.getById(id));
+	@GetMapping
+	public ResponseEntity<Member> getSelf() {
+		return ResponseEntity.of(memberSvc.getSelf());
 	}
 	
-	@PostMapping(value = "/add")
-	public ResponseEntity<String> add(@RequestBody Member member) {
+	@PostMapping
+	public ResponseEntity<String> register(@RequestBody Member member) {
 		Optional<Member> createdMember = memberSvc.create(member);
 		return (createdMember.isPresent())
-				? ResponseEntity.created(URI.create("/api/in/v1/members/" + createdMember.get().getMid())).build()
+				? ResponseEntity.created(URI.create("/api/ex/v1/members" + createdMember.get().getMid())).build()
 				: ResponseEntity.badRequest().body("Member already exists.");
 	}
 	
-	@PutMapping(value = "/{id}")
-	public ResponseEntity<String> update(@PathVariable("id") Integer id, @RequestBody Member member) {
-		return (id.equals(member.getMid()) && memberSvc.update(member).isPresent())
-				? ResponseEntity.noContent().location(URI.create("/api/in/v1/members/" + id)).build()
+	@PutMapping
+	public ResponseEntity<String> updateSelf(@RequestBody Member member) {
+		return (memberSvc.update(member).isPresent())
+				? ResponseEntity.noContent().location(URI.create("/api/ex/v1/members")).build()
 				: ResponseEntity.badRequest().body("Member does not exist.");
 
 	}
 	
-	@DeleteMapping(value = "/{id}")
-	public ResponseEntity<String> delete(@PathVariable("id") Integer id) {
-		Optional<Member> deletedMember = memberSvc.delete(id);
+	@DeleteMapping
+	public ResponseEntity<String> deleteSelf() {
+		Optional<Member> deletedMember = memberSvc.delete();
 		return (deletedMember.isEmpty())
 				? ResponseEntity.noContent().build()
 				: ResponseEntity.badRequest().body("Member does not exist.");

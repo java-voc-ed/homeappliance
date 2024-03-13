@@ -27,10 +27,8 @@ public class MemberSvc {
 	 * CRUD Operation
 	 */
 
-	public Optional<Member> getById(Integer id) {
-		return (id.equals(getLoggedInMember().getMid()))
-				? memberRepo.findById(id)
-				: Optional.empty();
+	public Optional<Member> getSelf() {
+		return memberRepo.findById(getLoggedInMember().getMid());
 	}
 
 	public Optional<Member> create(Member member) {
@@ -44,14 +42,14 @@ public class MemberSvc {
 	
 	public Optional<Member> update(Member member) {
 		member.setPassword(member.getPassword());
-		return  (memberRepo.existsById(member.getMid()))
+		return  (member.getUsername().equals(getLoggedInMember().getUsername()))
 				? Optional.of(memberRepo.save(member))
 				: Optional.empty();
 	}
 	
-	public Optional<Member> delete(Integer id) {
-		memberRepo.deleteById(id);
-		return memberRepo.findById(id);		
+	public Optional<Member> delete() {
+		memberRepo.deleteById(getLoggedInMember().getMid());
+		return memberRepo.findById(getLoggedInMember().getMid());		
 	}
 	
 	/**
