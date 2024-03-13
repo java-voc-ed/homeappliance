@@ -1,6 +1,7 @@
 package com.erp.demo.service.authentication;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -11,7 +12,8 @@ import com.erp.demo.model.physical.Member;
 import com.erp.demo.repo.MemberRepo;
 
 @Service
-public class CustomUserDetailsService implements UserDetailsService {
+@Order(1)
+public class MemberUserDetailsService implements UserDetailsService {
 
 	@Autowired
 	MemberRepo memberRepo;

@@ -10,4 +10,6 @@ public interface EmployeeRepo extends JpaRepository<Employee, Integer>{
 
 	Boolean existsByNationalIdEquals(String nationalId);
 
+	Employee findByUsername(String username);
+
 }

@@ -24,7 +24,7 @@ import org.springframework.web.filter.CorsFilter;
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
 @Configuration
-@EnableWebSecurity
+@EnableWebSecurity(debug = true)
 public class SecurityConfiguration {
 
 	/**
@@ -50,27 +50,27 @@ public class SecurityConfiguration {
      * @return
      * @throws Exception
      */
-	@Bean
-    SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
-		
-		/**
-		 * Note to self:
-		 * authorizeHttpRequests() accepts a function with an AuthorizationManagerRequestMatcherRegistry parameter.
-		 */
-		httpSecurity
-			.authorizeHttpRequests(authorize 
-					-> authorize.requestMatchers("/api/ex/v1/members").hasRole("MEMBER")).csrf((csrf) -> csrf.disable())
-			.formLogin(Customizer.withDefaults()).csrf((csrf) -> csrf.disable())			
-			.authorizeHttpRequests(
-					authorizationManagerRequestMatcherRegistry 
-					// TODO: IMPORTANT! METHODS .anyRequest().permitAll() IS FOR TESTING PURPOSES ONLY!
-					-> authorizationManagerRequestMatcherRegistry.anyRequest().permitAll()).csrf((csrf) -> csrf.disable());		
-		return httpSecurity.build();		
-		
-	}
+//	@Bean
+//    SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
+//		
+//		/**
+//		 * Note to self:
+//		 * authorizeHttpRequests() accepts a function with an AuthorizationManagerRequestMatcherRegistry parameter.
+//		 */
+//		httpSecurity
+//			.authorizeHttpRequests(authorize 
+//					-> authorize.requestMatchers("/api/ex/v1/members").hasRole("MEMBER")).csrf((csrf) -> csrf.disable())
+//			.formLogin(Customizer.withDefaults()).csrf((csrf) -> csrf.disable())			
+//			.authorizeHttpRequests(
+//					authorizationManagerRequestMatcherRegistry 
+//					// TODO: IMPORTANT! METHODS .anyRequest().permitAll() IS FOR TESTING PURPOSES ONLY!
+//					-> authorizationManagerRequestMatcherRegistry.anyRequest().permitAll()).csrf((csrf) -> csrf.disable());		
+//		return httpSecurity.build();		
+//		
+//	}
 	
-//	@Configuration
-//	@Order(1)
+	@Configuration
+	@Order(1)
 	public static class ExternalApplicationConfigurationAdapter {
 		
 		@Bean
@@ -78,43 +78,44 @@ public class SecurityConfiguration {
 				HttpSecurity httpSecurity, HandlerMappingIntrospector handlerMappingIntrospector) throws Exception {
 			
 			httpSecurity.csrf((csrf) -> csrf.disable())
-				.securityMatcher("/api/ex/**")
-				.authorizeHttpRequests(registry -> registry.requestMatchers("api/ex/**").hasRole("MEMBER"))
+				.securityMatcher("/api/ex/**", "/login", "logout")
+				.authorizeHttpRequests(registry -> registry.requestMatchers("/api/ex/**").hasRole("MEMBER"))
 				.formLogin(Customizer.withDefaults())
+				// TODO: The line below does not work!
 				.authorizeHttpRequests(registry -> registry.requestMatchers("/api/ex/*/members/register").permitAll());
 			return httpSecurity.build();
 		}
 		
 	}
 	
-//	@Configuration
-//	@Order(2)
+	@Configuration
+	@Order(2)
 	public static class InternalApplicationConfigurationAdapter {
 		
 		@Bean
-		SecurityFilterChain ExternalApplicationfilterChain(
+		SecurityFilterChain InternalApplicationfilterChain(
 				HttpSecurity httpSecurity, HandlerMappingIntrospector handlerMappingIntrospector) throws Exception {
 
 		httpSecurity.csrf((csrf) -> csrf.disable())
-			.securityMatcher("/api/in/**")
-			.authorizeHttpRequests(registry -> registry.requestMatchers("api/in/**").hasAnyRole("STAFF", "ADMIN"))
+			.securityMatcher("/api/in/**", "/admin")
+			.authorizeHttpRequests(registry -> registry.requestMatchers("/api/in/**").hasAnyRole("STAFF", "ADMIN"))
 			.formLogin(configurer 
 					-> configurer						
 						.loginPage("/admin/login.html")
 						.loginProcessingUrl("/admin/login")
-						.defaultSuccessUrl("/admin/index.html"))
-			.authorizeHttpRequests(registry -> registry.requestMatchers("/api/in/*/members/register").permitAll());
+						.defaultSuccessUrl("/admin/index.html")
+						.permitAll());
 		return httpSecurity.build();
 		}
 	
 	}
 	
-//	@Configuration
-//	@Order(3)
+	@Configuration
+	@Order(3)
 	public static class GlobalApplicationConfigurationAdapter {
 		
 		@Bean
-		SecurityFilterChain ExternalApplicationfilterChain(
+		SecurityFilterChain GlobalApplicationfilterChain(
 				HttpSecurity httpSecurity, HandlerMappingIntrospector handlerMappingIntrospector) throws Exception {
 			httpSecurity
 			.csrf((csrf) -> csrf.disable())
