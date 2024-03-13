@@ -36,7 +36,7 @@ public class MemberSvcController {
 	
 	@PostMapping
 	public ResponseEntity<String> register(@RequestBody Member member) {
-		Optional<Member> createdMember = memberSvc.create(member);
+		Optional<Member> createdMember = memberSvc.register(member);
 		return (createdMember.isPresent())
 				? ResponseEntity.created(URI.create("/api/ex/v1/members" + createdMember.get().getMid())).build()
 				: ResponseEntity.badRequest().body("Member already exists.");
@@ -44,7 +44,7 @@ public class MemberSvcController {
 	
 	@PutMapping
 	public ResponseEntity<String> updateSelf(@RequestBody Member member) {
-		return (memberSvc.update(member).isPresent())
+		return (memberSvc.updateSelf(member).isPresent())
 				? ResponseEntity.noContent().location(URI.create("/api/ex/v1/members")).build()
 				: ResponseEntity.badRequest().body("Member does not exist.");
 
@@ -52,7 +52,7 @@ public class MemberSvcController {
 	
 	@DeleteMapping
 	public ResponseEntity<String> deleteSelf() {
-		Optional<Member> deletedMember = memberSvc.delete();
+		Optional<Member> deletedMember = memberSvc.deleteSelf();
 		return (deletedMember.isEmpty())
 				? ResponseEntity.noContent().build()
 				: ResponseEntity.badRequest().body("Member does not exist.");

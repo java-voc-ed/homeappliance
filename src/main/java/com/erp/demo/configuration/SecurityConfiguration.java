@@ -27,6 +27,23 @@ import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 @EnableWebSecurity
 public class SecurityConfiguration {
 
+	/**
+	 * TODO: DISABLE FOR LIVE VERSIONS; FOR TESTING PURPOSES ONLY!
+	 * @return
+	 */
+	@Bean
+	CorsFilter corsFilter() {
+	    final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+	    final CorsConfiguration config = new CorsConfiguration();
+	    config.setAllowCredentials(true);
+	    // Don't do this in production, use a proper list  of allowed origins
+	    config.setAllowedOrigins(Collections.singletonList("*"));
+	    config.setAllowedHeaders(Arrays.asList("Origin", "Content-Type", "Accept"));
+	    config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "OPTIONS", "DELETE", "PATCH"));
+	    source.registerCorsConfiguration("/**", config);
+	    return new CorsFilter(source);
+	}
+	
     /**
      * TODO: IMPORTANT! METHODS .anyRequest().permitAll() IS FOR TESTING PURPOSES ONLY!
      * @param httpSecurity
@@ -52,41 +69,62 @@ public class SecurityConfiguration {
 		
 	}
 	
-	/**
-	 * TODO: DISABLE FOR LIVE VERSIONS; FOR TESTING PURPOSES ONLY!
-	 * @return
-	 */
-	@Bean
-	CorsFilter corsFilter() {
-	    final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-	    final CorsConfiguration config = new CorsConfiguration();
-	    config.setAllowCredentials(true);
-	    // Don't do this in production, use a proper list  of allowed origins
-	    config.setAllowedOrigins(Collections.singletonList("*"));
-	    config.setAllowedHeaders(Arrays.asList("Origin", "Content-Type", "Accept"));
-	    config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "OPTIONS", "DELETE", "PATCH"));
-	    source.registerCorsConfiguration("/**", config);
-	    return new CorsFilter(source);
+//	@Configuration
+//	@Order(1)
+	public static class ExternalApplicationConfigurationAdapter {
+		
+		@Bean
+		SecurityFilterChain ExternalApplicationfilterChain(
+				HttpSecurity httpSecurity, HandlerMappingIntrospector handlerMappingIntrospector) throws Exception {
+			
+			httpSecurity.csrf((csrf) -> csrf.disable())
+				.securityMatcher("/api/ex/**")
+				.authorizeHttpRequests(registry -> registry.requestMatchers("api/ex/**").hasRole("MEMBER"))
+				.formLogin(Customizer.withDefaults())
+				.authorizeHttpRequests(registry -> registry.requestMatchers("/api/ex/*/members/register").permitAll());
+			return httpSecurity.build();
+		}
+		
 	}
 	
 //	@Configuration
-//	@Order(1)
-//	public static class ExternalApplicationConfigurationAdapter {
-//		
-//		@Bean
-//		SecurityFilterChain ExternalApplicationfilterChain(
-//				HttpSecurity httpSecurity, HandlerMappingIntrospector handlerMappingIntrospector) throws Exception {
-//			
-//			MvcRequestMatcher.Builder mvcRequestMatcherBuilder = new MvcRequestMatcher.Builder(handlerMappingIntrospector);
-//			
-//			httpSecurity.securityMatcher("/api/ex/**")
-//				.authorizeHttpRequests(authorize -> authorize.requestMatchers())
-//				
-//			return null;
-//		}
-//		
-//	}
+//	@Order(2)
+	public static class InternalApplicationConfigurationAdapter {
+		
+		@Bean
+		SecurityFilterChain ExternalApplicationfilterChain(
+				HttpSecurity httpSecurity, HandlerMappingIntrospector handlerMappingIntrospector) throws Exception {
+
+		httpSecurity.csrf((csrf) -> csrf.disable())
+			.securityMatcher("/api/in/**")
+			.authorizeHttpRequests(registry -> registry.requestMatchers("api/in/**").hasAnyRole("STAFF", "ADMIN"))
+			.formLogin(configurer 
+					-> configurer						
+						.loginPage("/admin/login.html")
+						.loginProcessingUrl("/admin/login")
+						.defaultSuccessUrl("/admin/index.html"))
+			.authorizeHttpRequests(registry -> registry.requestMatchers("/api/in/*/members/register").permitAll());
+		return httpSecurity.build();
+		}
 	
+	}
+	
+//	@Configuration
+//	@Order(3)
+	public static class GlobalApplicationConfigurationAdapter {
+		
+		@Bean
+		SecurityFilterChain ExternalApplicationfilterChain(
+				HttpSecurity httpSecurity, HandlerMappingIntrospector handlerMappingIntrospector) throws Exception {
+			httpSecurity
+			.csrf((csrf) -> csrf.disable())
+			.authorizeHttpRequests(
+					registry 
+					// TODO: IMPORTANT! METHODS .anyRequest().permitAll() IS FOR TESTING PURPOSES ONLY!
+					-> registry.anyRequest().permitAll());
+			return httpSecurity.build();
+		}
+	}
 	
 	@Bean 
 	PasswordEncoder passwordEncoder() { 

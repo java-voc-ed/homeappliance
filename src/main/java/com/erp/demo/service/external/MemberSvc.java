@@ -31,7 +31,7 @@ public class MemberSvc {
 		return memberRepo.findById(getLoggedInMember().getMid());
 	}
 
-	public Optional<Member> create(Member member) {
+	public Optional<Member> register (Member member) {
 		member.setMid(null);
 		member.setPassword(passwordEncoder.encode(member.getPassword()));
 		return (!memberRepo.existsByNationalIdEquals(member.getNationalId())
@@ -40,14 +40,14 @@ public class MemberSvc {
 				: Optional.empty();
 	}
 	
-	public Optional<Member> update(Member member) {
+	public Optional<Member> updateSelf (Member member) {
 		member.setPassword(member.getPassword());
 		return  (member.getUsername().equals(getLoggedInMember().getUsername()))
 				? Optional.of(memberRepo.save(member))
 				: Optional.empty();
 	}
 	
-	public Optional<Member> delete() {
+	public Optional<Member> deleteSelf() {
 		memberRepo.deleteById(getLoggedInMember().getMid());
 		return memberRepo.findById(getLoggedInMember().getMid());		
 	}
