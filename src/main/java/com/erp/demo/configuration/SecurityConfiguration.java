@@ -7,8 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.User;
@@ -74,6 +77,21 @@ public class SecurityConfiguration {
 //		
 //	}
 	
+// TODO:
+// TODO:
+// TODO:
+// TODO:
+// TODO:
+// how to register authenticationprovider to manager???????????????????????????????????????
+// TO READ:
+// https://www.baeldung.com/spring-security-authentication-provider
+// https://www.devxperiences.com/pzwp1/2023/01/31/spring-boot-security-configuration-practically-explained-part6-a-deep-intro-to-filter-token-based-security/
+// https://stackoverflow.com/questions/75298001/how-to-use-multiple-login-pages-one-for-admin-and-the-other-one-for-user
+// https://medium.com/@joenjenga/spring-boot-multiple-loginforms-9ed2dff946d
+// https://www.codejava.net/frameworks/spring-boot/multiple-login-pages-examples
+// https://blog.csdn.net/u012702547/article/details/107530246
+
+	
 	@Configuration
 	@Order(1)
 	public static class ExternalApplicationConfigurationAdapter {
@@ -82,6 +100,10 @@ public class SecurityConfiguration {
 		MemberUserDetailsService memberUserdetailsService;
 		@Autowired
 		PasswordEncoder passwordEncoder;
+		
+		AuthenticationManager memberAuthenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+			return authenticationConfiguration.getAuthenticationManager();			
+		}
 		
 	    @Bean
 	    DaoAuthenticationProvider memberAuthenticationProvider() {
@@ -97,67 +119,73 @@ public class SecurityConfiguration {
 			
 			httpSecurity.csrf((csrf) -> csrf.disable())
 				.securityMatcher("/api/ex/**", "/login", "logout")
-				.authorizeHttpRequests(registry -> registry.requestMatchers("/api/ex/**").hasRole("MEMBER"))
+				.authorizeHttpRequests(registry 
+						-> registry.requestMatchers("/api/ex/**").hasRole("MEMBER"))
 				.formLogin(Customizer.withDefaults())
-				// TODO: The line below does not work!
-				.authorizeHttpRequests(registry -> registry.requestMatchers("/api/ex/*/members/register").permitAll());
+				.authenticationProvider(memberAuthenticationProvider());
 			return httpSecurity.build();
 		}
 		
 	}
 	
-	@Configuration
-	@Order(2)
-	public static class InternalApplicationConfigurationAdapter {
-		
-		@Autowired
-		EmployeeUserDetailsService employeeUserDetailsService;
-		@Autowired
-		PasswordEncoder passwordEncoder;
-	    
-	    @Bean
-	    DaoAuthenticationProvider employeeAuthenticationProvider() {
-	    	DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
-	    	authenticationProvider.setUserDetailsService(employeeUserDetailsService);
-	    	authenticationProvider.setPasswordEncoder(passwordEncoder);;
-	    	return authenticationProvider;
-	    }
-	    
-		
-		@Bean
-		SecurityFilterChain InternalApplicationfilterChain(
-				HttpSecurity httpSecurity, HandlerMappingIntrospector handlerMappingIntrospector) throws Exception {
-
-		httpSecurity.csrf((csrf) -> csrf.disable())
-			.securityMatcher("/api/in/**", "/admin")
-			.authorizeHttpRequests(registry -> registry.requestMatchers("/api/in/**").hasAnyRole("STAFF", "ADMIN"))
-			.formLogin(configurer 
-					-> configurer						
-						.loginPage("/admin/login.html")
-						.loginProcessingUrl("/admin/login")
-						.defaultSuccessUrl("/admin/index.html")
-						.permitAll());
-		return httpSecurity.build();
-		}
+//	@Configuration
+//	@Order(2)
+//	public static class InternalApplicationConfigurationAdapter {
+//		
+//		@Autowired
+//		EmployeeUserDetailsService employeeUserDetailsService;
+//		@Autowired
+//		PasswordEncoder passwordEncoder;
+//	    
+//	    @Bean
+//	    DaoAuthenticationProvider employeeAuthenticationProvider() {
+//	    	DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
+//	    	authenticationProvider.setUserDetailsService(employeeUserDetailsService);
+//	    	authenticationProvider.setPasswordEncoder(passwordEncoder);;
+//	    	return authenticationProvider;
+//	    	
+//	    }
+//	    
+//		@Bean
+//		SecurityFilterChain InternalApplicationfilterChain(
+//				HttpSecurity httpSecurity, HandlerMappingIntrospector handlerMappingIntrospector) throws Exception {
+//
+//			httpSecurity.csrf((csrf) -> csrf.disable())
+//				.securityMatcher("/api/in/**", "/admin/**")
+//				.authorizeHttpRequests(registry 
+//						-> registry.requestMatchers("/api/in/**").hasAnyRole("STAFF", "ADMIN"))
+//				.formLogin(configurer 
+//						-> configurer
+//							.loginPage("/admin/login.html")
+//							.loginProcessingUrl("/admin/login")
+//							.defaultSuccessUrl("/admin/index.html")
+//							.failureForwardUrl("/admin/login.html?error")
+//							.permitAll())
+//				.authenticationProvider(employeeAuthenticationProvider());
+//			return httpSecurity.build();
+//			
+//		}
+//	
+//	}
 	
-	}
-	
-	@Configuration
-	@Order(3)
-	public static class GlobalApplicationConfigurationAdapter {
-		
-		@Bean
-		SecurityFilterChain GlobalApplicationfilterChain(
-				HttpSecurity httpSecurity, HandlerMappingIntrospector handlerMappingIntrospector) throws Exception {
-			httpSecurity
-			.csrf((csrf) -> csrf.disable())
-			.authorizeHttpRequests(
-					registry 
-					// TODO: IMPORTANT! METHODS .anyRequest().permitAll() IS FOR TESTING PURPOSES ONLY!
-					-> registry.anyRequest().permitAll());
-			return httpSecurity.build();
-		}
-	}
+//	@Configuration
+//	@Order(3)
+//	public static class GlobalApplicationConfigurationAdapter {
+//		
+//		@Bean
+//		SecurityFilterChain GlobalApplicationfilterChain(
+//				HttpSecurity httpSecurity, HandlerMappingIntrospector handlerMappingIntrospector) throws Exception {
+//			httpSecurity
+//			.csrf((csrf) -> csrf.disable())
+//			.authorizeHttpRequests(
+//					registry 
+//					// TODO: IMPORTANT! METHODS .anyRequest().permitAll() IS FOR TESTING PURPOSES ONLY!
+//					-> registry
+//					.requestMatchers("/**").permitAll()
+//					.anyRequest().authenticated());
+//			return httpSecurity.build();
+//		}
+//	}
 	
 	@Bean 
 	PasswordEncoder passwordEncoder() { 
