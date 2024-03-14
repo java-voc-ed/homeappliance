@@ -12,7 +12,6 @@ import com.erp.demo.model.physical.Member;
 import com.erp.demo.repo.MemberRepo;
 
 @Service
-@Order(1)
 public class MemberUserDetailsService implements UserDetailsService {
 
 	@Autowired

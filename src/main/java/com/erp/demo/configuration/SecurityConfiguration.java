@@ -3,9 +3,11 @@ package com.erp.demo.configuration;
 import java.util.Arrays;
 import java.util.Collections;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -22,6 +24,9 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
+
+import com.erp.demo.service.authentication.EmployeeUserDetailsService;
+import com.erp.demo.service.authentication.MemberUserDetailsService;
 
 @Configuration
 @EnableWebSecurity(debug = true)
@@ -73,6 +78,19 @@ public class SecurityConfiguration {
 	@Order(1)
 	public static class ExternalApplicationConfigurationAdapter {
 		
+		@Autowired
+		MemberUserDetailsService memberUserdetailsService;
+		@Autowired
+		PasswordEncoder passwordEncoder;
+		
+	    @Bean
+	    DaoAuthenticationProvider memberAuthenticationProvider() {
+	    	DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
+	    	authenticationProvider.setUserDetailsService(memberUserdetailsService);
+	    	authenticationProvider.setPasswordEncoder(passwordEncoder);
+	    	return authenticationProvider;
+	    }
+	    
 		@Bean
 		SecurityFilterChain ExternalApplicationfilterChain(
 				HttpSecurity httpSecurity, HandlerMappingIntrospector handlerMappingIntrospector) throws Exception {
@@ -91,6 +109,20 @@ public class SecurityConfiguration {
 	@Configuration
 	@Order(2)
 	public static class InternalApplicationConfigurationAdapter {
+		
+		@Autowired
+		EmployeeUserDetailsService employeeUserDetailsService;
+		@Autowired
+		PasswordEncoder passwordEncoder;
+	    
+	    @Bean
+	    DaoAuthenticationProvider employeeAuthenticationProvider() {
+	    	DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
+	    	authenticationProvider.setUserDetailsService(employeeUserDetailsService);
+	    	authenticationProvider.setPasswordEncoder(passwordEncoder);;
+	    	return authenticationProvider;
+	    }
+	    
 		
 		@Bean
 		SecurityFilterChain InternalApplicationfilterChain(

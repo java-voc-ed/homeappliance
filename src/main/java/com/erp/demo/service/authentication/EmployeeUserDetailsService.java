@@ -13,7 +13,6 @@ import com.erp.demo.model.physical.Employee;
 import com.erp.demo.repo.EmployeeRepo;
 
 @Service
-@Order(2)
 public class EmployeeUserDetailsService implements UserDetailsService {
 
 	@Autowired
