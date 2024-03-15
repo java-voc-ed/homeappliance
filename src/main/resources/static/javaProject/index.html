@@ -657,17 +657,12 @@
             //     alert('註冊OK');
             // }
             $(document).ready(() => {
-                $('.login').append(`<a class="dropdown-item" href="/javaProject/singIn/index.html">登入</a>
-                                <hr class="dropdown-divider">
-                                <a class="dropdown-item">註冊</a>`);                                
-			
-
-
                 var getCurrentLoginUserJsonString = window.sessionStorage.getItem('currentLoginUser');
                 var getCurrentLoginUser = JSON.parse(getCurrentLoginUserJsonString);
-                alert('會員: '+getCurrentLoginUser.name+' 您好!')
+                
 
                 if (getCurrentLoginUser != null) {
+                	alert('會員: '+getCurrentLoginUser.name+' 您好!')
                         $('.login').append(`
                                 <a class="dropdown-item">${getCurrentLoginUser.name}</a>
                                 <hr class="dropdown-divider">

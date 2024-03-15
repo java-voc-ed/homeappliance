@@ -65,7 +65,7 @@
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle text-dark" data-toggle="dropdown" href="#">
                 <i class="bi bi-person-circle"></i></a>
-              <div class="dropdown-menu">
+              <div class="dropdown-menu login">
                 <!-- <a class="dropdown-item" href="/javaProject/singIn/index.html" id="change">登入</a>
                 <hr class="dropdown-divider">
                 <a class="dropdown-item">註冊</a>
@@ -288,7 +288,35 @@
     </div>
   </footer>
   <!-- Footer -->
+	<script>
+            // function signIn() {
+            //     alert('登入OK');
+            // }
 
+            // function signUp() {
+            //     alert('註冊OK');
+            // }
+            $(document).ready(() => {
+                var getCurrentLoginUserJsonString = window.sessionStorage.getItem('currentLoginUser');
+                var getCurrentLoginUser = JSON.parse(getCurrentLoginUserJsonString);
+                
+
+                if (getCurrentLoginUser != null) {
+                	alert('會員: '+getCurrentLoginUser.name+' 您好!')
+                        $('.login').append(`
+                                <a class="dropdown-item">${getCurrentLoginUser.name}</a>
+                                <hr class="dropdown-divider">
+                                <a class="dropdown-item">會員資料</a>
+                                <hr class="dropdown-divider">
+                                <a class="dropdown-item">訂單查詢</a>`);
+	            }
+		        else{
+                    $('.login').append(`<a class="dropdown-item" href="/javaProject/singIn/index.html">登入</a>
+                                        <hr class="dropdown-divider">
+                                        <a class="dropdown-item">註冊</a>`);                                
+			    }
+            });
+        </script>
   <!-- End of .container -->
 </body>
 
