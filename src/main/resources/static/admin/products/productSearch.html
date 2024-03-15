@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="zh-tw">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<head>
+    <meta charset="utf-8">
+    <title>商品管理</title>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+    <!-- Popper JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+
+    <!-- angular -->
+    <script src="https://cdn.staticfile.org/angular.js/1.8.1/angular.min.js"></script>
+
+    <!-- css-->
+    <link rel="stylesheet" type="text/css" href="./css/basic.css">
+
+    <!-- Date Picker -->
+    <script src="https://www.itxst.com/package/bootstrap-datepicker-1.9.0/js/bootstrap-datepicker.min.js"></script>
+    <script
+        src="https://www.itxst.com/package/bootstrap-datepicker-1.9.0/locales/bootstrap-datepicker.zh-CN.min.js"></script>
+    <link href="https://www.itxst.com/package/bootstrap-datepicker-1.9.0/css/bootstrap-datepicker.min.css"
+        rel="stylesheet">
+
+
+
+
+</head>
+
+<body id="test">
+    <h1>商品管理</h5>
+
+        <!-- 導覽列 -->
+        <nav class="navbar navbar-expand-sm  bg-light">
+
+            <ul class="navbar-nav mr-8">
+
+                <!-- 重新整理 -->
+                <li class="nav-item">
+                    <button type="button" class="btn btn-outline-primary" onclick="getAllData()">
+                        搜尋所有
+                    </button>
+                </li>
+
+                <!-- 新增 -->
+                <li class="nav-item">
+                    <button type="button" class="btn btn-outline-success" onclick="addButtonClick()">新增
+                    </button>
+                </li>
+
+            </ul>
+
+            <!-- 搜尋 -->
+            <div class="collapse navbar-collapse justify-content-end">
+                <form class="form-inline">
+                    <input type="text" id="searchText" class="form-control mr-2" placeholder="請輸入商品名稱">
+                    <button class="btn btn-outline-success" type="button" onclick="search()">搜尋</button>
+                </form>
+            </div>
+        </nav>
+
+
+        <!-- 列表 -->
+        <div class="table-responsive">
+
+            <table id="table" class="table table-bordered table-striped" cellspacing="0" width="90%">
+
+                <tr>
+                    <th>項次</th>
+                    <th>pid</th>
+                    <th>category</th>
+                    <th>subCategory</th>
+                    <th>name</th>                    
+                    <th>刪除</th>
+                    <th>編輯</th>
+                </tr>
+
+            </table>
+        </div>
+
+        </div>
+
+
+
+        <!-- 新增/編輯 Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editModalLabel">編輯商品資料</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <!-- body -->
+                    <div class="modal-body " style="height:500px;overflow:auto;">
+
+                        <!-- pid -->
+                        <div id="modalPidDiv" class="form-group">
+                            <label for="pidLabel">pid</label>
+                            <input id="pid" placeholder="商品編號" class="form-control" type="text" readonly>
+                        </div>
+
+                        <!-- sku -->
+                        <div class="form-group">
+                            <label for="skuLabel">sku</label>
+                            <input id="sku" placeholder="這是蝦毀" type="text" class="form-control">
+                        </div>
+
+                        <!-- name -->
+                        <div class="form-group">
+                            <label for="nameLabel">name</label>
+                            <input id="name" placeholder="商品名稱" type="text" class="form-control">
+                        </div>
+
+                        <!-- category -->
+                        <div class="form-group">
+                            <label for="categoryLabel">category</label>
+                            <select id="category" class="form-control">
+                            <option selected>請選擇</option>
+                            <option>refrigerator</option>
+                            <option>electric-pot </option>
+                            <option>dehumidifier</option>
+                            <option>washing-machine</option>
+                            <option>wine-storage-cabinet</option>
+                            <option>hair-dryer</option>
+                            </select>
+                        </div>
+
+                        <!-- subCategory -->
+                        <div class="form-group">
+                            <label for="subCategoryLabel">subCategory</label>
+                            <input id="subCategory" placeholder="商品名稱" type="text" class="form-control">
+                            <!-- <select id="subCategory" class="form-control">
+                            <option selected>請選擇</option>
+                                <option>冰箱</option>
+                                <option>電鍋</option>
+                                <option>除濕機</option>
+                                <option>洗衣機</option>
+                                <option>儲酒櫃</option>
+                                <option>吹風機</option>
+                            </select> -->
+                        </div>
+
+                        <!-- enabled -->
+                        <div class="form-group">
+                            <label for="enabledLabel">enabled</label>
+                            <input id="enabled" placeholder="啟用" type="checkbox" class="form-control">
+                        </div>
+
+                        <!-- price -->
+                        <div class="form-group">
+                            <label for="priceLabel">price</label>
+                            <input id="price" placeholder="價格" type="number" class="form-control">
+                        </div>
+
+                        <!-- inventory -->
+                        <div class="form-group">
+                            <label for="inventoryLabel">inventory</label>
+                            <input id="inventory" placeholder="庫存" type="number" class="form-control">
+                        </div>
+
+                        <!-- shippingMethod -->
+                        <div class="form-group">
+                            <label for="shippingMethodLabel">shippingMethod</label>
+                            <input id="shippingMethod" placeholder="購買方式" type="text" class="form-control">
+                        </div>
+
+                        <!-- startTime -->
+                        <div class="form-group">
+                            <label for="startTimeLabel">startTime</label>
+                            <input id="startTime" placeholder="請選擇日期" type="text" class="form-control">
+                        </div>
+
+                        <!-- endTime -->
+                        <div class="form-group">
+                            <label for="endTimeLabel">endTime</label>
+                            <input id="endTime" placeholder="請選擇日期" type="text" class="form-control">
+                        </div>
+
+
+                        <!-- specs -->
+                         <div class="form-group">
+                            <label for="specsTitle">specs</label>
+                            <textarea id="specs" placeholder="規格" class="form-control"
+                                id="exampleFormControlTextarea1" rows="3"></textarea>
+                        </div>
+
+
+                        <!-- description -->
+                        <div class="form-group">
+                            <label for="descriptionTitle">description</label>
+                            <textarea id="description" placeholder="描述" class="form-control"
+                                id="exampleFormControlTextarea1" rows="3"></textarea>
+                        </div>
+
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                        <button type="button" class="btn btn-primary" onclick="updateOrAddButtonClick()">儲存</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+</body>
+
+
+
+<script>
+
+    var datas = [];
+
+    //查詢所有
+    function getAllData() {
+        // 清除table
+        $("#table").find("tr:gt(0)").remove();
+
+        dataUrl = "http://localhost:8080/api/in/v1/products";
+        $.ajax({
+            method: 'get',
+            url: dataUrl,
+            crossDomain: true,
+            type: "json",
+            async: true,
+            headers: {
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': 'GET, PUT, POST, DELETE, OPTIONS',
+                'Access-Control-Allow-Headers': 'Access-Control-Allow-Headers, Access-Control-Allow-Origin, Origin, Content-Type, Authorization, Accept',
+                'cache-control': 'no-cache'
+            },
+            success: getAllSuccess,
+            error: function (jqXHR, thrownError) {
+                let errorMsg = "jqXHR.status:" + jqXHR.status + "\n" + "message:" + thrownError;
+                alert(errorMsg);
+            }
+        });
+
+    }
+
+    function getAllSuccess(data) {
+        datas = data;
+        updateTable(data);
+    }
+
+
+
+    // 編輯商品資訊
+    function editButtonClick(pid) {
+        dataUrl = "http://localhost:8080/api/in/v1/products/" + pid;
+        $.ajax({
+            method: 'get',
+            url: dataUrl,
+            crossDomain: true,
+            type: "json",
+            async: true,
+            headers: {
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': 'GET, PUT, POST, DELETE, OPTIONS',
+                'Access-Control-Allow-Headers': 'Access-Control-Allow-Headers, Access-Control-Allow-Origin, Origin, Content-Type, Authorization, Accept',
+                'cache-control': 'no-cache'
+            },
+            success: findEditSuccessEdit,
+            error: function (jqXHR, thrownError) {
+                let errorMsg = "jqXHR.status:" + jqXHR.status + "\n" + "message:" + thrownError;
+                alert(errorMsg);
+            }
+        });
+    }
+
+    // 取得特定商品資訊(編輯前先查詢)
+    function findEditSuccessEdit(data) {
+        // 更新Ui
+        $("#editModalLabel").text("編輯商品資料");
+        $("#modalPidDiv").show(true);
+        $("#pid").val(data.pid);
+        $("#sku").val(data.sku);
+        $("#name").val(data.name);
+        $("#category").val(data.category);
+        $("#subCategory").val(data.subCategory);
+        $("#enabled").val(data.enabled);
+        $("#price").val(data.price);
+        $("#inventory").val(data.inventory);
+        $("#shippingMethod").val(data.shippingMethod);
+        $("#startTime").val(data.startTime);
+        $("#endTime").val(data.endTime);
+        $("#specs").val(data.specs);
+        $("#description").val(data.description);
+        $('#exampleModal').modal(show = true);
+    }
+
+
+    // 更新/增加 商品資料
+    function updateOrAddButtonClick() {
+        let pid = $("#pid").val();
+
+        let isAdd = pid === "" ? true : false;
+
+        let sku = $("#sku").val();
+       
+        let name = $("#name").val();
+        let category = $("#category").val();
+        let subCategory = $("#subCategory").val();
+        let enabled = $("#enabled").val();
+        let price = $("#price").val();
+        let inventory = $("#inventory").val();
+        let shippingMethod = $("#shippingMethod").val();
+        let startTime = $("#startTime").val();
+        let endTime = $("#endTime").val();
+        let specs = $("#specs").val();
+        let description = $("#description").val();
+
+        var product = {};
+
+        if (isAdd == false) {
+            product.pid = parseInt(pid);
+        }
+
+        product.sku = sku;
+        product.name = name;
+        product.category = category;
+        product.subCategory = subCategory;
+        product.enabled = Boolean(enabled);
+        product.price = parseInt(price);
+        product.inventory = parseInt(inventory);
+        product.shippingMethod = shippingMethod;
+        product.startTime = startTime;
+        product.endTime = endTime;
+        product.specs = specs;
+        product.description = description;
+
+        //資料檢查 ~______~
+        if (isAdd) {
+            dataUrl = "http://localhost:8080/api/in/v1/products/add";
+            $.ajax({
+                method: 'post',
+                url: dataUrl,
+                crossDomain: true,
+                contentType: 'application/json',
+                async: true,
+                headers: {
+                    'Access-Control-Allow-Origin': '*',
+                    'Access-Control-Allow-Methods': 'GET, PUT, POST, DELETE, OPTIONS',
+                    'Access-Control-Allow-Headers': 'Access-Control-Allow-Headers, Access-Control-Allow-Origin, Origin, Content-Type, Authorization, Accept',
+                    'cache-control': 'no-cache'
+                },
+                data: JSON.stringify(product),
+                dataType: "json",
+                success: addSuccess,
+                error: function (jqXHR, thrownError) {
+                    let errorMsg = "jqXHR.status:" + jqXHR.status + "\n" + "message:" + thrownError;
+                    alert(errorMsg);
+                }
+            });
+        }
+        else {
+            dataUrl = "http://localhost:8080/api/in/v1/products/" + pid;
+            $.ajax({
+                method: 'put',
+                url: dataUrl,
+                crossDomain: true,
+                contentType: 'application/json',
+                async: true,
+                headers: {
+                    'Access-Control-Allow-Origin': '*',
+                    'Access-Control-Allow-Methods': 'GET, PUT, POST, DELETE, OPTIONS',
+                    'Access-Control-Allow-Headers': 'Access-Control-Allow-Headers, Access-Control-Allow-Origin, Origin, Content-Type, Authorization, Accept',
+                    'cache-control': 'no-cache'
+                },
+                data: JSON.stringify(product),
+                dataType: "json",
+                success: updateSuccess,
+                error: function (jqXHR, thrownError) {
+                    let errorMsg = "jqXHR.status:" + jqXHR.status + "\n" + "message:" + thrownError;
+                    alert(errorMsg);
+                }
+            });
+
+        }
+    }
+
+    function updateSuccess() {
+        $('#exampleModal').modal(show = false);
+        getAllData();
+        alert("更新成功!");
+    }
+
+    function addSuccess() {
+        $('#exampleModal').modal(show = false);
+        alert("新增成功!");
+        getAllData();
+    }
+
+
+
+    // 搜尋
+    function search() {
+        let searchText = $("#searchText").val();
+
+        if (searchText.length === 0) {
+            alert("請輸入查詢資訊");
+            return
+        }
+        $("#table").find("tr:gt(0)").remove();
+        let filterDatas = datas.filter(e => e.name.includes(searchText));
+        updateTable(filterDatas);
+    }
+
+
+    function delButtonClick(pid) {
+
+        dataUrl = "http://localhost:8080/api/in/v1/products/" + pid;
+        $.ajax({
+            method: 'delete',
+            url: dataUrl,
+            crossDomain: true,
+            async: true,
+            headers: {
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': 'GET, PUT, POST, DELETE, OPTIONS',
+                'Access-Control-Allow-Headers': 'Access-Control-Allow-Headers, Access-Control-Allow-Origin, Origin, Content-Type, Authorization, Accept',
+                'cache-control': 'no-cache'
+            },
+            dataType: "json",
+            success: function () {
+                alert("刪除成功");
+                getAllData();
+            },
+            error: function (jqXHR, thrownError) {
+                let errorMsg = "jqXHR.status:" + jqXHR.status + "\n" + "message:" + thrownError;
+                alert(errorMsg);
+            }
+        });
+
+    }
+
+
+    function addButtonClick() {
+
+        $("#editModalLabel").text("新增商品資料");
+        $("#modalPidDiv").hide(true);
+    
+        $("#pid").val("");
+        $("#sku").val("");
+        $("#name").val("");
+        $("#category").val("請選擇");
+        $("#subCategory").val("");
+        $("#enabled").val("");
+        $("#price").val("");
+        $("#inventory").val("");
+        $("#shippingMethod").val("");
+        $("#startTime").val("");
+        $("#endTime").val("");
+        $("#specs").val("");
+        $("#description").val("");
+        $('#exampleModal').modal(show = true);
+    }
+
+    // 基礎/初始化
+
+    // 更新table
+    function updateTable(datas) {
+        $.each(datas, function (i) {
+            var row = $("<tr></tr>");
+            $("<td></td>").text(i + 1).appendTo(row);
+            $("<td></td>").text(this.pid).appendTo(row);
+            $("<td></td>").text(this.category).appendTo(row);
+            $("<td></td>").text(this.subCategory).appendTo(row);
+            $("<td></td>").text(this.name).appendTo(row);
+            $("<td></td>").html("<input hidden=\'hidden\' id=\'delButton\' name=\'delButton\' />" +
+                "<input type=\'button\' class=\'btn btn-danger\' value=\'刪除\' onclick=\'delButtonClick(" + this.pid + ")\'>").appendTo(row);
+            $("#table").append(row);
+
+            $("<td></td>").html("<input hidden=\'hidden\' id=\'editButton\' name=\'editButton\' />" +
+                "<input type=\'button\' class=\'btn btn-warning\' value=\'編輯\' onclick=\'editButtonClick(" + this.pid + ")\'>").appendTo(row);
+            $("#table").append(row);
+        }
+        );
+    }
+
+    $(document).ready(function () {
+        getAllData();
+
+        $("#startTime").datepicker({
+            language: 'zh-tw', //设置语言
+            autoclose: true, //选择后自动关闭
+            clearBtn: true,//清除按钮
+            format: "yyyy-mm-dd"//日期格式
+        });
+
+        $("#endTime").datepicker({
+            language: 'zh-tw', //设置语言
+            autoclose: true, //选择后自动关闭
+            clearBtn: true,//清除按钮
+            format: "yyyy-mm-dd"//日期格式
+        });
+    });
+
+    function rs(data) {
+        $("#main").html(data);
+    }
+
+    function redirect(url) {
+        $.get(url, rs);
+        return false;
+    }
+
+</script>
+
+</html>
