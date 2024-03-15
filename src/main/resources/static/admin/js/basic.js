@@ -1,5 +1,3 @@
-
-
 //static
 const kCurrentLoginEmployeKey = 'currentLoginEmploye';
 const kLoginPath = '/admin/singIn/index.html';
@@ -10,7 +8,7 @@ Methods
 */
 //檢查是否登入若沒有登入就導到登入頁
 function checkEmployeDidLogingAndReplaceURL() {
-    if (getCurrentLoginEmploye()==false) {
+    if (getCurrentLoginEmploye()==null) {
         window.location.replace(kLoginPath);
     }
 }
@@ -18,7 +16,7 @@ function checkEmployeDidLogingAndReplaceURL() {
 function getCurrentLoginEmploye(){
     var currentLoginEmploye;
     var getCurrentLoginEmployeJsonString = window.sessionStorage.getItem(kCurrentLoginEmployeKey);
-    if (getCurrentLoginEmploye) {
+    if (getCurrentLoginEmployeJsonString) {
         currentLoginEmploye = JSON.parse(getCurrentLoginEmployeJsonString);
     }
     return currentLoginEmploye;
@@ -47,6 +45,6 @@ function showMessage(message) {
 /*
 LifeCycel
 */
-$(document).ready(function () {
-  checkEmployeDidLogingAndReplaceURL()
-});
+// $(document).ready(function () {
+//      checkEmployeDidLogingAndReplaceURL();
+// });
