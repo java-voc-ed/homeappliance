@@ -32,8 +32,7 @@ https://icons.bootcss.com/
   <script src="https://cdn.staticfile.org/angular.js/1.8.1/angular.min.js"></script>
 
   <link rel="stylesheet" type="text/css" href="./css/style.css">
-  <script src="./js/mian.js"></script>
-  <!-- <script type="text/javascript" src="./js/basic.js"></script> -->
+  <script type="text/javascript" src="./js/basic.js"></script>
 
   <!-- datepicker -->
   <script src="https://www.itxst.com/package/bootstrap-datepicker-1.9.0/js/bootstrap-datepicker.min.js"></script>
@@ -145,7 +144,7 @@ https://icons.bootcss.com/
 
           <!-- Modal footer -->
           <div class="modal-footer">
-            <button type="button" class="close" data-dismiss="modal">確定</button>
+            <button type="button" class="close" data-dismiss="modal" onclick="logout()">確定</button>
           </div>
         </div>
       </div>
@@ -156,7 +155,6 @@ https://icons.bootcss.com/
 
   <script>
 
-    <!--選單js-->
     $(document).ready(function () {
       
       jQuery(document).ready(function () {
@@ -195,6 +193,10 @@ https://icons.bootcss.com/
     function redirectFunctionURL(url) {
       $.get(url, loadHtmlToMain);
       return false;
+    }
+
+    function logout(){
+      logoutCurrentLoginEmploye();
     }
 
   </script>
