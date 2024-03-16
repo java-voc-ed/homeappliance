@@ -41,7 +41,7 @@ public class MemberSvc {
 	}
 	
 	public Optional<Member> update(Member member) {
-		member.setPassword(member.getPassword());
+		member.setPassword(passwordEncoder.encode(member.getPassword()));
 		return  (member.getUsername().equals(getLoggedInMember().getUsername()))
 				? Optional.of(memberRepo.save(member))
 				: Optional.empty();
