@@ -140,7 +140,7 @@ var shoppingCart = (function() { //Self-invoking function/Immediately-invoked fu
   // Triggers / Events
   // *****************************************
   // Add item 加入一個項目到Cart
-  $('.add-to-cart').click(function(event) {
+  $(document).on('click','.add-to-cart',function(event) {
     event.preventDefault();
     var name = $(this).data('name');
     var price = Number($(this).data('price'));

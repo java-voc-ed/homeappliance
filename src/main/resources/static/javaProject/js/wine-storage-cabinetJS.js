@@ -46,7 +46,7 @@ $(document).ready(() => {
             <p class="card-text">$${product.price}</p>
           </div>
           <div class="card-footer d-flex justify-content-between">
-            <a class="add-to-cart btn btn-block" data-name="${product.name}" data-price="$${product.price}">加入購物車</a>
+            <a class="add-to-cart btn btn-block" data-name="${product.name}" data-price="${product.price}">加入購物車</a>
           </div>
         </div>
       </li>

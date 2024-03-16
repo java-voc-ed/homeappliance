@@ -133,10 +133,10 @@
 						  //save
 						  var currentLoginUser = filterDatas.shift(0);
 						  var currentLoginUserJsonString = JSON.stringify(currentLoginUser);
-						  window.sessionStorage.setItem('currentLoginUser',currentLoginUserJsonString)
+						  localStorage.setItem('currentLoginUser',currentLoginUserJsonString)
 						 
 						 //read 
-						  var getCurrentLoginUser = window.sessionStorage.getItem('currentLoginUser');
+						  var getCurrentLoginUser = localStorage.getItem('currentLoginUser');
 						  var getCurrentLoginUserJsonString = JSON.parse(getCurrentLoginUser);
 						  alert('登入成功!');
 						  window.location.replace("/javaProject/index.html");

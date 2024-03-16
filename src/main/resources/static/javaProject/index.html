@@ -653,17 +653,20 @@
             //     alert('登入OK');
             // }
 
-            // function signUp() {
-            //     alert('註冊OK');
-            // }
+            function clearLocalStorage() {
+            	 localStorage.clear();
+            	 window.location.replace("/javaProject/index.html");
+             }
             $(document).ready(() => {
-                var getCurrentLoginUserJsonString = window.sessionStorage.getItem('currentLoginUser');
+                var getCurrentLoginUserJsonString = localStorage.getItem('currentLoginUser');
                 var getCurrentLoginUser = JSON.parse(getCurrentLoginUserJsonString);
                 
 
                 if (getCurrentLoginUser != null) {
                 	alert('會員: '+getCurrentLoginUser.name+' 您好!')
                         $('.login').append(`
+                        		<a class="dropdown-item" onclick="clearLocalStorage()">登出</a>
+                                <hr class="dropdown-divider">
                                 <a class="dropdown-item">${getCurrentLoginUser.name}</a>
                                 <hr class="dropdown-divider">
                                 <a class="dropdown-item">會員資料</a>
