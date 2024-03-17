@@ -61,7 +61,7 @@
             <!-- 搜尋 -->
             <div class="collapse navbar-collapse justify-content-end">
                 <form class="form-inline">
-                    <input type="text" id="searchText" class="form-control mr-2" placeholder="請輸入區域">
+                    <input type="text" id="searchText" class="form-control mr-2" placeholder="請輸入城市">
                     <button class="btn btn-outline-success" type="button" onclick="search()">搜尋</button>
                 </form>
             </div>
@@ -110,10 +110,6 @@
                             <input id="postalCode" placeholder="郵遞區號編號" type="text" class="form-control" readonly>
                         </div>
                         
-                        <div id="postaladd" class="form-group">
-                            <label for="postLabel">郵遞區號</label>
-                            <input id="postalCodeadd" placeholder="郵遞區號" type="text" class="form-control">
-                        </div>
 
                         <!-- county -->
                         <div class="form-group">
@@ -208,7 +204,6 @@
         // 更新Ui
         $("#editModalLabel").text("編輯郵遞區號資料");
         $("#modalMidDiv").show(true);
-        $("#postaladd").hide(true);
         $("#postalCode").val(data.postalCode);
         $("#county").val(data.county);
         $("#district").val(data.district);
@@ -218,11 +213,11 @@
 
     // 更新/增加 郵遞區號資料
     function updateOrAddButtonClick() {
-        let postalCode1 = $("#postalCode").val();
+        let postalCode = $("#postalCode").val();
 		
-        let isAdd = postalCode1 === "" ? true : false;
+        let isAdd = postalCode === "" ? true : false;
         
-		let postalCode = $("#postalCode").val(); 
+		
         let county = $("#county").val();
         let district = $("#district").val();
        
@@ -231,9 +226,9 @@
         var postal = {};
 
         if (isAdd == false) {
-        	postal.postalCode1 = parseInt(postalCode);
+        	postal.postalCode = parseInt(postalCode);
         }
-		
+      
         postal.county = county;
         postal.district = district;
 
@@ -310,7 +305,7 @@
             return
         }
         $("#table").find("tr:gt(0)").remove();
-        let filterDatas = datas.filter(e => e.nationalId.includes(searchText));
+        let filterDatas = datas.filter(e => e.county.includes(searchText));
         updateTable(filterDatas);
     }
 
@@ -347,8 +342,8 @@
 
         $("#editModalLabel").text("新增郵遞區號資料");
         $("#modalMidDiv").hide(true);
-        $("#postaladd").show(true);
-        $("#postalCodeadd").val("");
+       
+        $("#postalCode").val("");
         $("#county").val("");
         $("#district").val("");
     
