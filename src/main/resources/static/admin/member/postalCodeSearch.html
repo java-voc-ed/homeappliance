@@ -75,10 +75,9 @@
 
                 <tr>
                     <th>項次</th>
-                    <th>mid</th>
-                    <th>name</th>
-                    <th>nationalId</th>
-                    <th>username</th>
+                    <th>postalCode</th>
+                    <th>county</th>
+                    <th>district</th>
                     <th>刪除</th>
                     <th>編輯</th>
                 </tr>
@@ -105,105 +104,23 @@
 
                     <!-- body -->
                     <div class="modal-body " style="height:500px;overflow:auto;">
-
-                        <!-- mid -->
+                        
                         <div id="modalMidDiv" class="form-group">
-                            <label for="midLabel">mid</label>
-                            <input id="mid" placeholder="郵遞區號編號" class="form-control" type="text" readonly>
+                            <label for="postalCodeLabel">郵遞區號postalCode</label>
+                            <input id="postalCode" placeholder="郵遞區號編號" type="text" class="form-control" readonly>
                         </div>
 
-                        <!-- username -->
+                        <!-- county -->
                         <div class="form-group">
-                            <label for="usernameLabel">username</label>
-                            <input id="username" placeholder="帳號" type="text" class="form-control">
+                            <label for="usernameLabel">城市</label>
+                            <input id="county" placeholder="城市" type="text" class="form-control">
                         </div>
 
-                        <!-- password -->
+                        <!-- district -->
                         <div class="form-group">
-                            <label for="passwordLabel">password</label>
-                            <input id="password" placeholder="密碼" type="text" class="form-control">
+                            <label for="passwordLabel">鄉鎮區</label>
+                            <input id="district" placeholder="鄉鎮" type="text" class="form-control">
                         </div>
-
-                        <!-- name -->
-                        <div class="form-group">
-                            <label for="nameLabel">name</label>
-                            <input id="name" placeholder="姓名" type="text" class="form-control">
-                        </div>
-
-                        <!-- sex -->
-                        <div class="form-group">
-                            <label for="sexState">sex</label>
-                            <select id="sex" class="form-control">
-                                <option selected>請選擇</option>
-                                <option>M</option>
-                                <option>F</option>
-                            </select>
-                        </div>
-
-                        <!-- nationalId -->
-                        <div class="form-group">
-                            <label for="nationalIdLabel">nationalId</label>
-                            <input id="nationalId" placeholder="身份證字號" type="text" class="form-control">
-                        </div>
-
-                        <!-- birthDate -->
-                        <!-- ref:
-                        https://www.itxst.com/bootstrap-datepicker/tutorial.html#:~:text=bootstra,%E8%A6%81%E7%9A%84%E5%8A%9F%E8%83%BD%E5%92%8CUI%E3%80%82 
-                        -->
-                        <div class="form-group">
-                            <label for="birthDateLabel">birthDate</label>
-                            <input id="birthDate" placeholder="請選擇日期" type="text" class="form-control">
-                        </div>
-
-                        <!-- cellphone -->
-                        <div class="form-group">
-                            <label for="cellphoneLabel">cellphone</label>
-                            <input id="cellphone" placeholder="手機" type="text" class="form-control">
-                        </div>
-
-                        <!-- landlineprefix -->
-                        <div class="form-group">
-                            <label for="landlineprefixLabel">landlineprefix</label>
-                            <input id="landlineprefix" placeholder="市內電話區碼" type="text" class="form-control">
-                        </div>
-
-                        <!-- landline -->
-                        <div class="form-group">
-                            <label for="landlineLabel">landline</label>
-                            <input id="landline" placeholder="市內電話" type="text" class="form-control">
-                        </div>
-
-                        <!-- mail -->
-                        <div class="form-group">
-                            <label for="mailTitle">email</label>
-                            <input id="email" placeholder="電子信箱" type="email" class="form-control">
-                        </div>
-
-                        <!-- postalCode -->
-                        <div class="form-group">
-                            <label for="postalCodeLabel">postalCode</label>
-                            <select id="postalCode" class="form-control">
-                                <option selected>請選擇</option>
-                                <option>100</option>
-                                <option>200</option>
-                            </select>
-                        </div>
-
-                        <!-- address -->
-                        <div class="form-group">
-                            <label for="addressTitle">address</label>
-                            <input id="address" placeholder="地址" type="text" class="form-control">
-                        </div>
-
-                        <!-- footnote -->
-                        <div class="form-group">
-                            <label for="footnoteTitle">footnote</label>
-                            <textarea id="footnote" placeholder="備註" class="form-control"
-                                id="exampleFormControlTextarea1" rows="3"></textarea>
-                        </div>
-
-
-
                     </div>
 
                     <div class="modal-footer">
@@ -229,7 +146,7 @@
         // 清除table
         $("#table").find("tr:gt(0)").remove();
 
-        dataUrl = "http://localhost:8080/api/in/v1/members";
+        dataUrl = "http://localhost:8080/api/in/v1/enum/postal-code";
         $.ajax({
             method: 'get',
             url: dataUrl,
@@ -259,8 +176,8 @@
 
 
     // 編輯郵遞區號資訊
-    function editButtonClick(mid) {
-        dataUrl = "http://localhost:8080/api/in/v1/members/" + mid;
+    function editButtonClick(postalCode) {
+        dataUrl = "http://localhost:8080/api/in/v1/enum/postal-code/" + postalCode;
         $.ajax({
             method: 'get',
             url: dataUrl,
@@ -286,68 +203,37 @@
         // 更新Ui
         $("#editModalLabel").text("編輯郵遞區號資料");
         $("#modalMidDiv").show(true);
-        $("#mid").val(data.mid);
-        $("#username").val(data.username);
-        $("#password").val(data.password);
-        $("#name").val(data.name);
-        $("#sex").val(data.sex);
-        $("#nationalId").val(data.nationalId);
-        $("#birthDate").val(data.birthDate);
-        $("#cellphone").val(data.cellphone);
-        $("#landlineprefix").val(data.landlineprefix);
-        $("#landline").val(data.landline);
-        $("#email").val(data.email);
         $("#postalCode").val(data.postalCode);
-        $("#address").val(data.address);
-        $("#footnote").val(data.footnote);
+        $("#county").val(data.county);
+        $("#district").val(data.district);
         $('#exampleModal').modal(show = true);
     }
 
 
     // 更新/增加 郵遞區號資料
     function updateOrAddButtonClick() {
-        let mid = $("#mid").val();
-
-        let isAdd = mid === "" ? true : false;
-
-        let username = $("#username").val();
-        let password = $("#password").val();
-        let name = $("#name").val();
-        let sex = $("#sex").val();
-        let nationalId = $("#nationalId").val();
-        let birthDate = $("#birthDate").val();
-        let cellphone = $("#cellphone").val();
-        let landlineprefix = $("#landlineprefix").val();
-        let landline = $("#landline").val();
-        let email = $("#email").val();
         let postalCode = $("#postalCode").val();
-        let address = $("#address").val();
-        let footnote = $("#footnote").val();
+
+        let isAdd = postalCode === "" ? true : false;
+        
+		let postalCode1 = $("postalCode").val();
+        let county = $("#county").val();
+        let district = $("#district").val();
+       
 
 
-        var member = {};
+        var postal = {};
 
         if (isAdd == false) {
-            member.mid = parseInt(mid);
+        	postal.postalCode = parseInt(postalCode);
         }
 
-        member.username = username;
-        member.password = password;
-        member.name = name;
-        member.sex = sex;
-        member.nationalId = nationalId;
-        member.birthDate = birthDate;
-        member.cellphone = cellphone;
-        member.landlineprefix = landlineprefix;
-        member.landline = landline;
-        member.email = email;
-        member.postalCode = parseInt(postalCode);
-        member.address = address;
-        member.footnote = footnote;
+        postal.county = county;
+        postal.district = district;
 
         //資料檢查 ~______~
         if (isAdd) {
-            dataUrl = "http://localhost:8080/api/in/v1/members/add";
+            dataUrl = "http://localhost:8080/api/in/v1/enum/postal-code/add";
             $.ajax({
                 method: 'post',
                 url: dataUrl,
@@ -360,7 +246,7 @@
                     'Access-Control-Allow-Headers': 'Access-Control-Allow-Headers, Access-Control-Allow-Origin, Origin, Content-Type, Authorization, Accept',
                     'cache-control': 'no-cache'
                 },
-                data: JSON.stringify(member),
+                data: JSON.stringify(postal),
                 dataType: "json",
                 success: addSuccess,
                 error: function (jqXHR, thrownError) {
@@ -370,7 +256,7 @@
             });
         }
         else {
-            dataUrl = "http://localhost:8080/api/in/v1/members/" + mid;
+            dataUrl = "http://localhost:8080/api/in/v1/enum/postal-code/" + postalCode;
             $.ajax({
                 method: 'put',
                 url: dataUrl,
@@ -383,7 +269,7 @@
                     'Access-Control-Allow-Headers': 'Access-Control-Allow-Headers, Access-Control-Allow-Origin, Origin, Content-Type, Authorization, Accept',
                     'cache-control': 'no-cache'
                 },
-                data: JSON.stringify(member),
+                data: JSON.stringify(postal),
                 dataType: "json",
                 success: updateSuccess,
                 error: function (jqXHR, thrownError) {
@@ -423,9 +309,9 @@
     }
 
 
-    function delButtonClick(mid) {
+    function delButtonClick(postalCode) {
 
-        dataUrl = "http://localhost:8080/api/in/v1/members/" + mid;
+        dataUrl = "http://localhost:8080/api/in/v1/enum/postal-code/"+postalCode;
         $.ajax({
             method: 'delete',
             url: dataUrl,
@@ -455,20 +341,10 @@
 
         $("#editModalLabel").text("新增郵遞區號資料");
         $("#modalMidDiv").hide(true);
-        $("#mid").val("");
-        $("#username").val("");
-        $("#password").val("");
-        $("#name").val("");
-        $("#sex").val("請選擇");
-        $("#nationalId").val("");
-        $("#birthDate").val("");
-        $("#cellphone").val("");
-        $("#landlineprefix").val("");
-        $("#landline").val("");
-        $("#email").val("");
-        $("#postalCode").val("請選擇");
-        $("#address").val("");
-        $("#footnote").val("");
+        $("#postalCode").val("");
+        $("#county").val("");
+        $("#district").val("");
+    
 
         $('#exampleModal').modal(show = true);
     }
@@ -480,17 +356,17 @@
         $.each(datas, function (i) {
             var row = $("<tr></tr>");
             $("<td></td>").text(i + 1).appendTo(row);
-            $("<td></td>").text(this.mid).appendTo(row);
-            $("<td></td>").text(this.name).appendTo(row);
-            $("<td></td>").text(this.nationalId).appendTo(row);
-            $("<td></td>").text(this.username).appendTo(row);
+            $("<td></td>").text(this.postalCode).appendTo(row);
+            $("<td></td>").text(this.county).appendTo(row);
+            $("<td></td>").text(this.district).appendTo(row);
+            
 
             $("<td></td>").html("<input hidden=\'hidden\' id=\'delButton\' name=\'delButton\' />" +
-                "<input type=\'button\' class=\'btn btn-danger\' value=\'刪除\' onclick=\'delButtonClick(" + this.mid + ")\'>").appendTo(row);
+                "<input type=\'button\' class=\'btn btn-danger\' value=\'刪除\' onclick=\'delButtonClick(" + this.postalCode + ")\'>").appendTo(row);
             $("#table").append(row);
 
             $("<td></td>").html("<input hidden=\'hidden\' id=\'editButton\' name=\'editButton\' />" +
-                "<input type=\'button\' class=\'btn btn-warning\' value=\'編輯\' onclick=\'editButtonClick(" + this.mid + ")\'>").appendTo(row);
+                "<input type=\'button\' class=\'btn btn-warning\' value=\'編輯\' onclick=\'editButtonClick(" + this.postalCode + ")\'>").appendTo(row);
             $("#table").append(row);
         }
         );
