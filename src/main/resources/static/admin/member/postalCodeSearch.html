@@ -3,32 +3,39 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <head>
-    <meta charset="utf-8">
-    <title>郵遞區號管理</title>
+<meta charset="utf-8">
+<title>郵遞區號管理</title>
 
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
 
-    <!-- jQuery library -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<!-- jQuery library -->
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 
-    <!-- Popper JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<!-- Popper JS -->
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 
-    <!-- Latest compiled JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<!-- Latest compiled JavaScript -->
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 
-    <!-- angular -->
-    <script src="https://cdn.staticfile.org/angular.js/1.8.1/angular.min.js"></script>
+<!-- angular -->
+<script src="https://cdn.staticfile.org/angular.js/1.8.1/angular.min.js"></script>
 
-    <!-- css-->
-    <link rel="stylesheet" type="text/css" href="./css/basic.css">
+<!-- css-->
+<link rel="stylesheet" type="text/css" href="./css/basic.css">
 
-    <!-- Date Picker -->
-    <script src="https://www.itxst.com/package/bootstrap-datepicker-1.9.0/js/bootstrap-datepicker.min.js"></script>
-    <script src="https://www.itxst.com/package/bootstrap-datepicker-1.9.0/locales/bootstrap-datepicker.zh-CN.min.js"></script>
-    <link href="https://www.itxst.com/package/bootstrap-datepicker-1.9.0/css/bootstrap-datepicker.min.css"
-        rel="stylesheet">
+<!-- Date Picker -->
+<script
+	src="https://www.itxst.com/package/bootstrap-datepicker-1.9.0/js/bootstrap-datepicker.min.js"></script>
+<script
+	src="https://www.itxst.com/package/bootstrap-datepicker-1.9.0/locales/bootstrap-datepicker.zh-CN.min.js"></script>
+<link
+	href="https://www.itxst.com/package/bootstrap-datepicker-1.9.0/css/bootstrap-datepicker.min.css"
+	rel="stylesheet">
 
 
 
@@ -36,104 +43,109 @@
 </head>
 
 <body id="test">
-    <h1>郵遞區號管理</h5>
+	<h1>
+		郵遞區號管理
+		</h5>
 
-        <!-- 導覽列 -->
-        <nav class="navbar navbar-expand-sm  bg-light">
+		<!-- 導覽列 -->
+		<nav class="navbar navbar-expand-sm  bg-light">
 
-            <ul class="navbar-nav mr-8">
+			<ul class="navbar-nav mr-8">
 
-                <!-- 重新整理 -->
-                <li class="nav-item">
-                    <button type="button" class="btn btn-outline-primary" onclick="getAllData()">
-                        搜尋所有
-                    </button>
-                </li>
+				<!-- 重新整理 -->
+				<li class="nav-item">
+					<button type="button" class="btn btn-outline-primary"
+						onclick="getAllData()">搜尋所有</button>
+				</li>
 
-                <!-- 新增 -->
-                <li class="nav-item">
-                    <button type="button" class="btn btn-outline-success" onclick="addButtonClick()">新增
-                    </button>
-                </li>
+				<!-- 新增 -->
+				<li class="nav-item">
+					<button type="button" class="btn btn-outline-success"
+						onclick="addButtonClick()">新增</button>
+				</li>
 
-            </ul>
+			</ul>
 
-            <!-- 搜尋 -->
-            <div class="collapse navbar-collapse justify-content-end">
-                <form class="form-inline">
-                    <input type="text" id="searchText" class="form-control mr-2" placeholder="請輸入城市">
-                    <button class="btn btn-outline-success" type="button" onclick="search()">搜尋</button>
-                </form>
-            </div>
-        </nav>
-
-
-        <!-- 列表 -->
-        <div class="table-responsive">
-
-            <table id="table" class="table table-bordered table-striped" cellspacing="0" width="90%">
-
-                <tr>
-                    <th>項次</th>
-                    <th>postalCode</th>
-                    <th>county</th>
-                    <th>district</th>
-                    <th>刪除</th>
-                    <th>編輯</th>
-                </tr>
-
-            </table>
-        </div>
-
-        </div>
+			<!-- 搜尋 -->
+			<div class="collapse navbar-collapse justify-content-end">
+				<form class="form-inline">
+					<input type="text" id="searchText" class="form-control mr-2"
+						placeholder="請輸入城市">
+					<button class="btn btn-outline-success" type="button"
+						onclick="search()">搜尋</button>
+				</form>
+			</div>
+		</nav>
 
 
+		<!-- 列表 -->
+		<div class="table-responsive">
 
-        <!-- 新增/編輯 Modal -->
-        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog modal-lg" role="document">
-                <div class="modal-content">
+			<table id="table" class="table table-bordered table-striped"
+				cellspacing="0" width="90%">
 
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="editModalLabel">編輯郵遞區號資料</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
+				<tr>
+					<th>項次</th>
+					<th>postalCode</th>
+					<th>county</th>
+					<th>district</th>
+					<th>刪除</th>
+					<th>編輯</th>
+				</tr>
 
-                    <!-- body -->
-                    <div class="modal-body " style="height:500px;overflow:auto;">
-                        
-                        <div id="modalMidDiv" class="form-group">
-                            <label for="postalCodeLabel">郵遞區號postalCode</label>
-                            <input id="postalCode" placeholder="郵遞區號編號" type="text" class="form-control" readonly>
-                        </div>
-                        
+			</table>
+		</div>
 
-                        <!-- county -->
-                        <div class="form-group">
-                            <label for="usernameLabel">城市</label>
-                            <input id="county" placeholder="城市" type="text" class="form-control">
-                        </div>
-
-                        <!-- district -->
-                        <div class="form-group">
-                            <label for="passwordLabel">鄉鎮區</label>
-                            <input id="district" placeholder="鄉鎮" type="text" class="form-control">
-                        </div>
-                    </div>
-
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
-                        <button type="button" class="btn btn-primary" onclick="updateOrAddButtonClick()">儲存</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+		</div>
 
 
 
+		<!-- 新增/編輯 Modal -->
+		<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+			aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-lg" role="document">
+				<div class="modal-content">
+
+					<div class="modal-header">
+						<h5 class="modal-title" id="editModalLabel">編輯郵遞區號資料</h5>
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+
+					<!-- body -->
+					<div class="modal-body " style="height: 500px; overflow: auto;">
+
+						<div id="modalMidDiv" class="form-group">
+							<label for="postalCodeLabel">郵遞區號postalCode</label> <input
+								id="postalCode" placeholder="郵遞區號編號" type="text"
+								class="form-control">
+						</div>
+
+
+						<!-- county -->
+						<div class="form-group">
+							<label for="usernameLabel">城市</label> <input id="county"
+								placeholder="城市" type="text" class="form-control">
+						</div>
+
+						<!-- district -->
+						<div class="form-group">
+							<label for="passwordLabel">鄉鎮區</label> <input id="district"
+								placeholder="鄉鎮" type="text" class="form-control">
+						</div>
+					</div>
+
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary"
+							data-dismiss="modal">取消</button>
+						<button type="button" class="btn btn-primary"
+							onclick="updateOrAddButtonClick()">儲存</button>
+					</div>
+				</div>
+			</div>
+		</div>
 </body>
 
 
@@ -141,7 +153,9 @@
 <script>
 
     var datas = [];
-
+	var isAdd = false;
+	var refPostCode = "";
+    
     //查詢所有
     function getAllData() {
         // 清除table
@@ -178,6 +192,8 @@
 
     // 編輯郵遞區號資訊
     function editButtonClick(postalCode) {
+    	isAdd = false;
+    	refPostCode = postalCode;
         dataUrl = "http://localhost:8080/api/in/v1/enum/postal-code/" + postalCode;
         $.ajax({
             method: 'get',
@@ -211,26 +227,23 @@
     }
 
 
+	
     // 更新/增加 郵遞區號資料
     function updateOrAddButtonClick() {
         let postalCode = $("#postalCode").val();
-		
-        let isAdd = postalCode === "" ? true : false;
-        
-		
         let county = $("#county").val();
         let district = $("#district").val();
        
 
 
         var postal = {};
-
-        if (isAdd == false) {
-        	postal.postalCode = parseInt(postalCode);
-        }
-      
+        postal.postalCode = postalCode;
+      	
         postal.county = county;
         postal.district = district;
+
+        //alert(JSON.stringify(postal));
+        //alert(refPostCode);
 
         //資料檢查 ~______~
         if (isAdd) {
@@ -251,13 +264,20 @@
                 dataType: "json",
                 success: addSuccess,
                 error: function (jqXHR, thrownError) {
-                    let errorMsg = "jqXHR.status:" + jqXHR.status + "\n" + "message:" + thrownError;
-                    alert(errorMsg);
+                	if(jqXHR.status==201){
+                		alert('add ok');
+                    }
+                	else {
+                		let errorMsg = "jqXHR.status:" + jqXHR.status + "\n" + "message:" + thrownError;
+                        alert(errorMsg);
+                   	}
+                	
+                    
                 }
             });
         }
         else {
-            dataUrl = "http://localhost:8080/api/in/v1/enum/postal-code/"+postalCode;
+            dataUrl = "http://localhost:8080/api/in/v1/enum/postal-code/"+refPostCode;
             $.ajax({
                 method: 'put',
                 url: dataUrl,
@@ -341,12 +361,13 @@
     function addButtonClick() {
 
         $("#editModalLabel").text("新增郵遞區號資料");
-        $("#modalMidDiv").hide(true);
+        //$("#modalMidDiv").hide(true);
        
         $("#postalCode").val("");
         $("#county").val("");
         $("#district").val("");
-    
+        isAdd = true;
+        refPostCode="";
 
         $('#exampleModal').modal(show = true);
     }

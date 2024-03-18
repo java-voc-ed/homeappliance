@@ -30,9 +30,7 @@ public class EnumSvc {
 	}
 
 	public Optional<PostalCode> updatePostalCode(PostalCode postalCode) {
-		return  (postalCodeRepo.existsById(postalCode.getPostalCode()))
-				? Optional.of(postalCodeRepo.save(postalCode))
-				: Optional.empty();
+		return Optional.of(postalCodeRepo.save(postalCode));
 	}
 	
 	public Optional<PostalCode> deletePostalCode(Integer id) {

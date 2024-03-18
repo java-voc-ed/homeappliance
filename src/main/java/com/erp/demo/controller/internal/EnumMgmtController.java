@@ -39,14 +39,16 @@ public class EnumMgmtController {
 	public ResponseEntity<String> add(@RequestBody PostalCode postalCode) {
 		Optional<PostalCode> createdPostalCode = enumSvc.createPostalCode(postalCode);
 		return (createdPostalCode.isPresent())
-				? ResponseEntity.created(URI.create("/api/in/v1/postalCodes/" + createdPostalCode.get().getPostalCode())).build()
+				? ResponseEntity.created(URI.create("/api/in/v1/enum/postal-code/" + createdPostalCode.get().getPostalCode())).build()
 				: ResponseEntity.badRequest().body("PostalCode already exists.");
 	}
 	
 	@PutMapping(value = "/postal-code/{id}")
 	public ResponseEntity<String> update(@PathVariable("id") Integer id, @RequestBody PostalCode postalCode) {
-		return (id.equals(postalCode.getPostalCode()) && enumSvc.updatePostalCode(postalCode).isPresent())
-				? ResponseEntity.noContent().location(URI.create("/api/in/v1/postalCodes/" + id)).build()
+		Optional<PostalCode> updatedPostalCode = enumSvc.updatePostalCode(postalCode);
+		return (updatedPostalCode.isPresent())
+				? ResponseEntity.noContent().location(URI.create("/api/in/v1/enum/postal-code/" 
+																+ updatedPostalCode.get().getPostalCode())).build()
 				: ResponseEntity.badRequest().body("PostalCode does not exist.");
 
 	}
