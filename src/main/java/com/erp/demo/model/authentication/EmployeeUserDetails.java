@@ -17,7 +17,7 @@ public class EmployeeUserDetails  implements UserDetails  {
 	
 	private Employee employee;
 	
-	private EmployeeUserDetails(Employee employee) {
+	public EmployeeUserDetails(Employee employee) {
 		this.employee = employee;
 	}
 	
